@@ -1,7 +1,7 @@
-"client component."
+"client component.";
 import Link from "next/link";
-import React, { useRef } from 'react';
-import { createUserWithEmailAndPassword } from 'firebase/auth';
+import React, { useRef } from "react";
+import { createUserWithEmailAndPassword } from "firebase/auth";
 import { auth } from "../Firebase/Firebase";
 import { useRouter } from "next/router";
 // import { auth } from '../Components/Firebase/Firebase';
@@ -21,16 +21,16 @@ const SignUpComponent = () => {
         localStorage.setItem("userInfo", JSON.stringify(user));
         props.setUserInfo(user);
         alert("SignUp successful", user);
-        console.log('SignUp successful user : ', user);
+        console.log("SignUp successful user : ", user);
       })
       .catch((error) => {
         const errorCode = error.code;
         const errorMessage = error.message;
         alert("Not able to signUp Error: ", errorMessage, errorCode);
-        console.log('errorCode', errorMessage, errorCode);
+        console.log("errorCode", errorMessage, errorCode);
       });
-      router.push('/log_in');
-  }
+    router.push("/log_in");
+  };
   return (
     <div className="w-full relative bg-colors-background-bg-primary h-[960px] flex flex-row items-center justify-start min-h-[960px] text-left text-xs text-colors-text-text-primary-900 font-text-lg-regular">
       <div className="self-stretch flex-1 overflow-hidden flex flex-col items-start justify-start">
@@ -653,7 +653,11 @@ const SignUpComponent = () => {
                           <div className="relative leading-[20px] font-medium">
                             First Name*
                           </div>
-                          <input required placeholder="Enter your first name" className="self-stretch rounded-radius-md bg-colors-background-bg-primary shadow-[0px_1px_2px_rgba(16,_24,_40,_0.05)] flex flex-row items-center justify-start py-2.5 px-3.5 gap-[0px_8px] text-base text-colors-text-text-quarterary-500 border-[1px] border-solid border-component-colors-components-buttons-secondary-button-secondary-border" />
+                          <input
+                            required
+                            placeholder="Enter your first name"
+                            className="self-stretch rounded-radius-md bg-colors-background-bg-primary shadow-[0px_1px_2px_rgba(16,_24,_40,_0.05)] flex flex-row items-center justify-start py-2.5 px-3.5 gap-[0px_8px] text-base text-colors-text-text-quarterary-500 border-[1px] border-solid border-component-colors-components-buttons-secondary-button-secondary-border"
+                          />
                           {/* <div className="self-stretch rounded-radius-md bg-colors-background-bg-primary shadow-[0px_1px_2px_rgba(16,_24,_40,_0.05)] flex flex-row items-center justify-start py-2.5 px-3.5 gap-[0px_8px] text-base text-colors-text-text-quarterary-500 border-[1px] border-solid border-component-colors-components-buttons-secondary-button-secondary-border">
                             <div className="flex-1 flex flex-row items-center justify-start">
                               <div className="flex-1 relative leading-[24px] overflow-hidden text-ellipsis whitespace-nowrap">
@@ -676,7 +680,11 @@ const SignUpComponent = () => {
                           <div className="relative leading-[20px] font-medium">
                             Last Name*
                           </div>
-                          <input placeholder="Enter your last name" className="self-stretch rounded-radius-md bg-colors-background-bg-primary shadow-[0px_1px_2px_rgba(16,_24,_40,_0.05)] flex flex-row items-center justify-start py-2.5 px-3.5 gap-[0px_8px] text-base text-colors-text-text-quarterary-500 border-[1px] border-solid border-component-colors-components-buttons-secondary-button-secondary-border" />
+                          <input
+                            required
+                            placeholder="Enter your last name"
+                            className="self-stretch rounded-radius-md bg-colors-background-bg-primary shadow-[0px_1px_2px_rgba(16,_24,_40,_0.05)] flex flex-row items-center justify-start py-2.5 px-3.5 gap-[0px_8px] text-base text-colors-text-text-quarterary-500 border-[1px] border-solid border-component-colors-components-buttons-secondary-button-secondary-border"
+                          />
                           {/* <div className="self-stretch rounded-radius-md bg-colors-background-bg-primary shadow-[0px_1px_2px_rgba(16,_24,_40,_0.05)] flex flex-row items-center justify-start py-2.5 px-3.5 gap-[0px_8px] text-base text-colors-text-text-quarterary-500 border-[1px] border-solid border-component-colors-components-buttons-secondary-button-secondary-border">
                             <div className="flex-1 flex flex-row items-center justify-start">
                               <div className="flex-1 relative leading-[24px] overflow-hidden text-ellipsis whitespace-nowrap">
@@ -700,7 +708,12 @@ const SignUpComponent = () => {
                         <div className="relative leading-[20px] font-medium">
                           Email*
                         </div>
-                        <input required ref={emailRef} placeholder="Enter your email" className="self-stretch rounded-radius-md bg-colors-background-bg-primary shadow-[0px_1px_2px_rgba(16,_24,_40,_0.05)] flex flex-row items-center justify-start py-2.5 px-3.5 gap-[0px_8px] text-base text-colors-text-text-quarterary-500 border-[1px] border-solid border-component-colors-components-buttons-secondary-button-secondary-border" />
+                        <input
+                          required
+                          ref={emailRef}
+                          placeholder="Enter your email"
+                          className="self-stretch rounded-radius-md bg-colors-background-bg-primary shadow-[0px_1px_2px_rgba(16,_24,_40,_0.05)] flex flex-row items-center justify-start py-2.5 px-3.5 gap-[0px_8px] text-base text-colors-text-text-quarterary-500 border-[1px] border-solid border-component-colors-components-buttons-secondary-button-secondary-border"
+                        />
                         {/* <div className="self-stretch rounded-radius-md bg-colors-background-bg-primary shadow-[0px_1px_2px_rgba(16,_24,_40,_0.05)] flex flex-row items-center justify-start py-2.5 px-3.5 gap-[0px_8px] text-base text-colors-text-text-quarterary-500 border-[1px] border-solid border-component-colors-components-buttons-secondary-button-secondary-border">
                           <div className="flex-1 flex flex-row items-center justify-start">
                             <div className="flex-1 relative leading-[24px] overflow-hidden text-ellipsis whitespace-nowrap">
@@ -724,7 +737,10 @@ const SignUpComponent = () => {
                           <div className="relative leading-[20px] font-medium">
                             Organisation
                           </div>
-                          <input placeholder="Enter your organisation" className="self-stretch rounded-radius-md bg-colors-background-bg-primary shadow-[0px_1px_2px_rgba(16,_24,_40,_0.05)] flex flex-row items-center justify-start py-2.5 px-3.5 gap-[0px_8px] text-base text-colors-text-text-quarterary-500 border-[1px] border-solid border-component-colors-components-buttons-secondary-button-secondary-border" />
+                          <input
+                            placeholder="Enter your organisation"
+                            className="self-stretch rounded-radius-md bg-colors-background-bg-primary shadow-[0px_1px_2px_rgba(16,_24,_40,_0.05)] flex flex-row items-center justify-start py-2.5 px-3.5 gap-[0px_8px] text-base text-colors-text-text-quarterary-500 border-[1px] border-solid border-component-colors-components-buttons-secondary-button-secondary-border"
+                          />
                           {/* <div className="self-stretch rounded-radius-md bg-colors-background-bg-primary shadow-[0px_1px_2px_rgba(16,_24,_40,_0.05)] flex flex-row items-center justify-start py-2.5 px-3.5 gap-[0px_8px] text-base text-colors-text-text-quarterary-500 border-[1px] border-solid border-component-colors-components-buttons-secondary-button-secondary-border">
                             <div className="flex-1 flex flex-row items-center justify-start">
                               <div className="flex-1 relative leading-[24px] overflow-hidden text-ellipsis whitespace-nowrap">
@@ -747,7 +763,10 @@ const SignUpComponent = () => {
                           <div className="relative leading-[20px] font-medium">
                             Sector
                           </div>
-                          <input placeholder="Select team member" className="self-stretch rounded-radius-md bg-colors-background-bg-primary shadow-[0px_1px_2px_rgba(16,_24,_40,_0.05)] overflow-hidden flex flex-row items-center justify-start py-2.5 px-3.5 gap-[0px_8px] text-base text-colors-text-text-quarterary-500 border-[1px] border-solid border-component-colors-components-buttons-secondary-button-secondary-border" />
+                          <input
+                            placeholder="Select team member"
+                            className="self-stretch rounded-radius-md bg-colors-background-bg-primary shadow-[0px_1px_2px_rgba(16,_24,_40,_0.05)] overflow-hidden flex flex-row items-center justify-start py-2.5 px-3.5 gap-[0px_8px] text-base text-colors-text-text-quarterary-500 border-[1px] border-solid border-component-colors-components-buttons-secondary-button-secondary-border"
+                          />
                           {/* <div className="self-stretch rounded-radius-md bg-colors-background-bg-primary shadow-[0px_1px_2px_rgba(16,_24,_40,_0.05)] overflow-hidden flex flex-row items-center justify-start py-2.5 px-3.5 gap-[0px_8px] text-base text-colors-text-text-quarterary-500 border-[1px] border-solid border-component-colors-components-buttons-secondary-button-secondary-border">
                             <div className="flex-1 flex flex-row items-center justify-start">
                               <div className="flex-1 relative leading-[24px] overflow-hidden text-ellipsis whitespace-nowrap">
@@ -772,7 +791,12 @@ const SignUpComponent = () => {
                           <div className="relative leading-[20px] font-medium">
                             New Password
                           </div>
-                          <input required type="password"  placeholder="Enter Password" className="self-stretch rounded-radius-md bg-colors-background-bg-primary shadow-[0px_1px_2px_rgba(16,_24,_40,_0.05)] flex flex-row items-center justify-start py-2.5 px-3.5 gap-[0px_8px] text-base text-colors-text-text-primary-900 border-[1px] border-solid border-component-colors-components-buttons-secondary-button-secondary-border" />
+                          <input
+                            required
+                            type="password"
+                            placeholder="Enter Password"
+                            className="self-stretch rounded-radius-md bg-colors-background-bg-primary shadow-[0px_1px_2px_rgba(16,_24,_40,_0.05)] flex flex-row items-center justify-start py-2.5 px-3.5 gap-[0px_8px] text-base text-colors-text-text-primary-900 border-[1px] border-solid border-component-colors-components-buttons-secondary-button-secondary-border"
+                          />
                           {/* <div className="self-stretch rounded-radius-md bg-colors-background-bg-primary shadow-[0px_1px_2px_rgba(16,_24,_40,_0.05)] flex flex-row items-center justify-start py-2.5 px-3.5 gap-[0px_8px] text-base text-colors-text-text-primary-900 border-[1px] border-solid border-component-colors-components-buttons-secondary-button-secondary-border">
                             <div className="flex-1 flex flex-row items-center justify-start">
                               <div className="flex-1 relative leading-[24px] overflow-hidden text-ellipsis whitespace-nowrap">
@@ -798,7 +822,13 @@ const SignUpComponent = () => {
                           <div className="relative leading-[20px] font-medium">
                             Confirm New Password
                           </div>
-                          <input required type="password"  ref={passwordRef} placeholder="Confirm Password" className="self-stretch rounded-radius-md bg-colors-background-bg-primary shadow-[0px_1px_2px_rgba(16,_24,_40,_0.05)] flex flex-row items-center justify-start py-2.5 px-3.5 gap-[0px_8px] text-base text-colors-text-text-primary-900 border-[1px] border-solid border-component-colors-components-buttons-secondary-button-secondary-border" />
+                          <input
+                            required
+                            type="password"
+                            ref={passwordRef}
+                            placeholder="Confirm Password"
+                            className="self-stretch rounded-radius-md bg-colors-background-bg-primary shadow-[0px_1px_2px_rgba(16,_24,_40,_0.05)] flex flex-row items-center justify-start py-2.5 px-3.5 gap-[0px_8px] text-base text-colors-text-text-primary-900 border-[1px] border-solid border-component-colors-components-buttons-secondary-button-secondary-border"
+                          />
                           {/* <div className="self-stretch rounded-radius-md bg-colors-background-bg-primary shadow-[0px_1px_2px_rgba(16,_24,_40,_0.05)] flex flex-row items-center justify-start py-2.5 px-3.5 gap-[0px_8px] text-base text-colors-text-text-primary-900 border-[1px] border-solid border-component-colors-components-buttons-secondary-button-secondary-border">
                             <div className="flex-1 flex flex-row items-center justify-start">
                               <div className="flex-1 relative leading-[24px] overflow-hidden text-ellipsis whitespace-nowrap">
@@ -819,7 +849,10 @@ const SignUpComponent = () => {
                     </div>
                   </div>
                   <div className="self-stretch flex flex-col items-start justify-start text-base text-colors-background-bg-primary">
-                    <button type="submit" className="text-white cursor-pointer self-stretch rounded-radius-md bg-component-colors-components-buttons-primary-button-primary-bg shadow-[0px_1px_2px_rgba(16,_24,_40,_0.05)] overflow-hidden flex flex-row items-center justify-center py-2.5 px-spacing-xl gap-[0px_6px] border-[1px] border-solid border-component-colors-components-buttons-primary-button-primary-bg">
+                    <button
+                      type="submit"
+                      className="text-white cursor-pointer self-stretch rounded-radius-md bg-component-colors-components-buttons-primary-button-primary-bg shadow-[0px_1px_2px_rgba(16,_24,_40,_0.05)] overflow-hidden flex flex-row items-center justify-center py-2.5 px-spacing-xl gap-[0px_6px] border-[1px] border-solid border-component-colors-components-buttons-primary-button-primary-bg"
+                    >
                       <img
                         className="w-5 relative h-5 overflow-hidden shrink-0 hidden"
                         alt=""
