@@ -1,12 +1,9 @@
-import React from 'react'
-import ProductHomePage from '../Components/HomeComponent/HomeComponent'
+import ProductHomePage from "../Components/HomeComponent/HomeComponent";
 
-function index() {
+const IndexHome = () => {
   return (
-    <div>
-      <ProductHomePage/>
-    </div>
-  )
-}
+    <ProductHomePage/>
+  );
+};
 
-export default index
+export default IndexHome;

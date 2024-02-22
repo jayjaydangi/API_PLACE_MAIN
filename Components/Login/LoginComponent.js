@@ -699,7 +699,7 @@ const [Email, setEmail] = useState('')
                                     />
                                 </div>
                             </div>
-                            <div className="flex-1 flex flex-row items-center justify-center gap-[0px_12px]">
+                            {/* <div className="flex-1 flex flex-row items-center justify-center gap-[0px_12px]">
                                 <div className="flex-1 rounded-radius-md bg-colors-background-bg-primary shadow-[0px_1px_2px_rgba(16,_24,_40,_0.05)] overflow-hidden flex flex-row items-center justify-center p-2.5 border-[1px] border-solid border-component-colors-components-buttons-secondary-button-secondary-border">
                                     <img
                                         className="w-6 relative h-6 overflow-hidden shrink-0"
@@ -758,7 +758,7 @@ const [Email, setEmail] = useState('')
                                         src="/social-icon9.svg"
                                     />
                                 </div>
-                            </div>
+                            </div> */}
                         </div>
                     </div>
                 </div>
@@ -787,7 +787,7 @@ const [Email, setEmail] = useState('')
                                 alt=""
                                 src="/placeholder9.svg"
                             />
-                            <Link href="/sign-up">
+                            <Link href="/sign_up">
                                 <div className="relative leading-[20px] font-semibold">
                                     Sign up
                                 </div>

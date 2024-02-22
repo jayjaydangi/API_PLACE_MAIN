@@ -5,7 +5,6 @@ function Home() {
   return (
     <div><ProductHomePage/></div>
   )
-  
 }
 
 export default Home

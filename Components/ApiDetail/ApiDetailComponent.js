@@ -1,9 +1,11 @@
-import Link from "next/link";
+// import Link from "next/link";
+import CommonHeader from "../Commons/Header";
 
 const APIDetailPage = () => {
     return (
       <div className="w-full relative bg-colors-background-bg-primary overflow-hidden flex flex-col items-center justify-start text-left text-5xl text-colors-text-text-primary-900 font-text-lg-regular">
-        <div className="w-[1440px] relative h-20 z-[3] text-xl text-colors-gray-dark-mode-900">
+        <CommonHeader/>
+        {/* <div className="w-[1440px] relative h-20 z-[3] text-xl text-colors-gray-dark-mode-900">
           <div className="absolute w-full top-[0px] right-[0px] left-[0px] h-20 flex flex-col items-center justify-center">
             <div className="w-full flex flex-row items-center justify-between py-0 px-container-padding-desktop box-border max-w-[1280px]">
               <div className="flex flex-row items-center justify-start gap-[0px_32px]">
@@ -123,7 +125,7 @@ const APIDetailPage = () => {
               </div>
             </div>
           </div>
-        </div>
+        </div> */}
         <div className="w-[1440px] bg-colors-background-bg-primary overflow-hidden flex flex-col items-center justify-start py-spacing-6xl px-0 box-border z-[2]">
           <div className="w-full flex flex-col items-start justify-start py-0 px-container-padding-desktop box-border gap-[48px_0px] max-w-[1280px]">
             <div className="self-stretch flex flex-row items-start justify-start gap-[0px_64px]">

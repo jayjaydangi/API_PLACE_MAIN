@@ -1,9 +1,30 @@
-import React from 'react'
+import Link from "next/link";
+import { useState } from "react";
+import ForgotPasswordComponent from "../Components/forgotPasswordComponet";
+import ResatePassMailComponent from "../Components/resateMailSentUi";
+// import ResatePassMailComponent from "../Components/ResatePassMailComponent";
 
-function Forgot_password() {
+const Forgot_Password = () => {
+  const [email, setemail] = useState("")
+  const [showSentLinkScreen, setshowSentLinkScreen] = useState(false)
+  const handleResateClick = () => {
+    console.log('email', email)
+    alert('Entered email is : ', email);
+    setshowSentLinkScreen(true)
+
+  }
   return (
-    <div>Forgot_password</div>
-  )
-}
+    <>{showSentLinkScreen ?
+      <ResatePassMailComponent />
+      :
+      <ForgotPasswordComponent 
+      handleResateClick={handleResateClick}
+      setemail={setemail}
+      email={email}
+      />
+    }
+    </>
+  );
+};
 
-export default Forgot_password
+export default Forgot_Password;

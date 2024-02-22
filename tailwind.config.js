@@ -45,6 +45,7 @@ module.exports = {
           "#d6bbfb",
         "component-colors-utility-brand-utility-brand-50": "#f9f5ff",
         "colors-border-border-tertiary": "#f2f4f7",
+        "component-colors-utility-success-utility-success-100": "#dcfae6",
       },
       spacing: {
         "spacing-7xl": "64px",
@@ -65,6 +66,7 @@ module.exports = {
         "spacing-2xl": "20px",
         "spacing-11xl": "160px",
         "spacing-9xl": "96px",
+        "container-padding-mobile": "16px",
       },
       fontFamily: {
         "text-lg-regular": "Inter",
@@ -86,6 +88,8 @@ module.exports = {
         "spacing-xs": "4px",
         "radius-full": "9999px",
         "radius-2xl": "16px",
+        "radius-xs": "4px",
+        "radius-xl": "12px",
       },
     },
     fontSize: {
