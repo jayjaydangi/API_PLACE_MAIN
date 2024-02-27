@@ -3,6 +3,7 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
 body {
   @apply leading-[normal] m-0;
 }
@@ -11,6 +12,8 @@ body {
 ::after {
   border-width: 0;
 }
-a {
-  text-decoration: none;
+a{
+  text-decoration: none !important;
+  color: black;
 }
+.thumbs-wrapper{display: none;}

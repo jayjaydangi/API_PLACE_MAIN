@@ -1,41 +1,230 @@
-"client component.";
+"client component."
 import Link from "next/link";
-import React, { useRef } from "react";
-import { createUserWithEmailAndPassword } from "firebase/auth";
+import React, { useEffect, useRef, useState } from 'react';
+import { GoogleAuthProvider, createUserWithEmailAndPassword, signInWithEmailAndPassword, signInWithPopup } from 'firebase/auth';
+// import { addDoc, collection } from 'firebase/firestore';
 import { auth } from "../Firebase/Firebase";
-import { useRouter } from "next/router";
+import Router, { useRouter } from "next/router";
+// import { getFirestore } from "firebase/firestore";
+// import { Alert } from "flowbite-react";
+import "react-responsive-carousel/lib/styles/carousel.min.css"; 
+
+import { Carousel } from 'react-responsive-carousel'; 
+
+import axios from "axios";
+
 // import { auth } from '../Components/Firebase/Firebase';
 const SignUpComponent = () => {
   const router = useRouter();
+  const fNameRef = useRef();
+  const lNameRef = useRef();
   const emailRef = useRef();
   const passwordRef = useRef();
+  const con_passwordReF = useRef();
+  const organisationRef = useRef();
+  const sectorRef = useRef();
+  const [UserInfo, setUserInfo] = useState(null)
+  const [userPersonalDetails, setuserPersonalDetails] = useState(null)
+  const [showPass, setshowPass] = useState(false)
+  const [showC_Pass, setshowC_Pass] = useState(false)
 
-  const onLoginSubmit = (e) => {
+  // const dbFireStore = getFirestore();
+  // console.log('dbFireStore', dbFireStore)
+  console.log('setuserPersonalDetails', userPersonalDetails)
+  const password = passwordRef?.current?.value;
+  const con_password = con_passwordReF?.current?.value;
+
+  // const onSignUpSubmit = async (e) => {
+  //   e.preventDefault();
+  //   const fName = fNameRef.current.value;
+  //   const lName = lNameRef.current.value;
+  //   const email = emailRef.current.value;
+  //   const organisation = organisationRef.current.value;
+  //   const sector = sectorRef.current.value;
+
+  //   // Get all user information
+
+  //   try {
+  //     var user;
+  //     if (password === con_password) {
+  //       console.log('password === con_password', password, con_password)
+  //       try {
+  //         const userCredential = await createUserWithEmailAndPassword(auth, email, con_password);
+  //         user = userCredential.user;
+  //         console.log('userCredential', userCredential.user)
+  //         localStorage.setItem('userInfo', JSON.stringify(user));
+
+  //       } catch (error) {
+  //         console.log('userCredential error : ', error)
+
+  //       }
+  //       // Get the newly created user object
+  //     } else {
+  //       alert("Password is not same")
+  //     }
+  //     console.log('userCredential', user)
+  //     // Create a user object with all information
+  //     // const userData = {
+  //     //   uid: user.uid,
+  //     //   fName,
+  //     //   lName,
+  //     //   email,
+  //     //   organisation,
+  //     //   sector,
+  //     //   // Add other relevant user information
+  //     // };
+  //     var bodyParams = {
+  //       "id": user.uid,
+  //       "firstName": fName,
+  //       "lastName": lName,
+  //       "username": email,
+  //       "email": email,
+  //       "organizationName": organisation,
+  //       "profilePictureUrl": "string",
+  //       "websiteLink": "string",
+  //       "phoneNumber": "string",
+  //       "state": sector,
+  //       "loginProvider": "string"
+  //     }
+  //     const headers = {
+  //       'Authorization': `Bearer ${user?.stsTokenManager?.accessToken}`, // Replace with your actual authorization token
+  //       'Content-Type': 'application/json'
+  //       // Add any other headers if needed
+  //     };
+  //     // Store user data in Firestore
+  //     // await dbFireStore.collection('users').doc(user.uid).set(userData);
+
+  //     try {
+  //       const response = await axios.post(process.env.NEXT_PUBLIC_BASE_URL, { headers }, bodyParams);
+  //       // const response = axios.post("https://gatewaysvc-dev.azurewebsites.net/api/users/", { headers }, bodyParams);
+  //       //  const userPersonalDetails = axios.push(`https://gatewaysvc-dev.azurewebsites.net/api/users/${user.uid}`);
+  //       // const docRef = await addDoc(collection(dbFireStore, userData))
+  //       console.log('Response:', response.data);
+  //       setuserPersonalDetails(response)
+  //       localStorage.setItem('userPnl_Info', JSON.stringify(response));
+  //       console.log('User data inserted', response)
+  //       return response.data;
+  //     } catch (error) {
+  //       console.warn("Error fetching data : ", error);
+  //     }
+
+  //     // Optional: Store user information locally (consider security implications)
+  //     localStorage.setItem('userInfo', JSON.stringify(user));
+
+  //     // Redirect to login or other appropriate page
+  //     router.push('/log_in'); // Replace with your desired redirect path
+
+  //     alert('Signup successful!');
+  //     console.log('Signup successful:', user);
+  //   } catch (error) {
+  //     const errorCode = error.code;
+  //     const errorMessage = error.message;
+
+  //     alert('Signup failed:', errorMessage, errorCode);
+  //     console.error('Signup error:', error);
+  //   }
+  // };
+
+  const onSignUpSubmit = async (e) => {
     e.preventDefault();
+    const fName = fNameRef.current.value;
+    const lName = lNameRef.current.value;
     const email = emailRef.current.value;
-    const password = passwordRef.current.value;
-    createUserWithEmailAndPassword(auth, email, password)
-      .then((userCredential) => {
+    const organisation = organisationRef.current.value;
+    const sector = sectorRef.current.value;
+
+    try {
+      if (password === con_password) {
+        const userCredential = await createUserWithEmailAndPassword(auth, email, con_password);
         const user = userCredential.user;
-        // Store user information in local storage
-        localStorage.setItem("userInfo", JSON.stringify(user));
-        props.setUserInfo(user);
-        alert("SignUp successful", user);
-        console.log("SignUp successful user : ", user);
-      })
-      .catch((error) => {
-        const errorCode = error.code;
-        const errorMessage = error.message;
-        alert("Not able to signUp Error: ", errorMessage, errorCode);
-        console.log("errorCode", errorMessage, errorCode);
-      });
-    router.push("/log_in");
+
+        const bodyParams = {
+          "id": user.uid,
+          "firstName": fName,
+          "lastName": lName,
+          "username": email,
+          "email": email,
+          "organizationName": organisation,
+          "profilePictureUrl": "string",
+          "websiteLink": "string",
+          "phoneNumber": "string",
+          "state": sector,
+          "loginProvider": "string"
+        };
+
+        const headers = {
+          'Authorization': `Bearer ${user?.stsTokenManager?.accessToken}`,
+          'Content-Type': 'application/json'
+        };
+
+        try {
+          const response = await axios.post("https://gatewaysvc-dev.azurewebsites.net/api/Users", bodyParams, { headers });
+          console.log('Response:', response.data);
+          localStorage.setItem('userPnl_Info', JSON.stringify(response.data));
+          alert('Signup successful!');
+          console.log('Signup successful:', user);
+          router.push('/log_in');
+        } catch (error) {
+          console.warn("Error posting user data: ", error);
+          // Handle error appropriately, e.g., show error message to user
+        }
+      } else {
+        alert("Password is not the same");
+      }
+    } catch (error) {
+      const errorCode = error.code;
+      const errorMessage = error.message;
+      alert('Signup failed:', errorMessage, errorCode);
+      console.error('Signup error:', error);
+    }
   };
+  console.log('UserInfo', JSON.stringify(UserInfo), "NEXT_PUBLIC_BASE_URL =", process.env.NEXT_PUBLIC_BASE_URL)
+
+
+  useEffect(() => {
+    const unsubscribe = auth.onAuthStateChanged((user) => {
+      if (user) {
+        setUserInfo(user);
+        localStorage.setItem("userInfo", JSON.stringify(user));
+      } else {
+        setUserInfo(null);
+      }
+    })
+    return () => {
+      unsubscribe()
+    }
+  }, [])
+
+
+  //  Login with google auth
+  const signInWithGoogle = async () => {
+    const provider = new GoogleAuthProvider();
+    try {
+      await signInWithPopup(auth, provider);
+      Router.push("/");
+    } catch (error) {
+      console.error('Error signing in with google', error.message)
+    }
+
+  }
+
+
+
+
+
+
+
+
+
+
+
+
+
   return (
     <div className="w-full relative bg-colors-background-bg-primary h-[960px] flex flex-row items-center justify-start min-h-[960px] text-left text-xs text-colors-text-text-primary-900 font-text-lg-regular">
       <div className="self-stretch flex-1 overflow-hidden flex flex-col items-start justify-start">
         <div className="self-stretch flex-1 bg-colors-background-bg-brand-section flex flex-col items-center justify-center py-spacing-11xl px-0">
-          <div className="self-stretch flex flex-col items-center justify-center py-0 px-spacing-4xl gap-[96px_0px]">
+        {/*  <div className="self-stretch flex flex-col items-center justify-center py-0 px-spacing-4xl gap-[96px_0px]">
             <div className="rounded-21xl flex flex-col items-center justify-start p-6 relative bg-[url('/content2@3x.png')] bg-cover bg-no-repeat bg-[top]">
               <div className="w-[416px] rounded-spacing-xl bg-colors-background-bg-primary h-64 flex flex-col items-start justify-start p-5 box-border relative gap-[8px_0px] z-[0] text-right text-component-colors-components-buttons-tertiary-button-tertiary-fg">
                 <div className="self-stretch flex-1 relative z-[0]">
@@ -627,12 +816,28 @@ const SignUpComponent = () => {
                 </div>
               </div>
             </div>
-          </div>
+          </div>*/}
+          
+<Carousel> 
+                  <div> 
+                      <img src="/Container.png" alt="image1"/> 
+                      {/* <p className="legend">Image 1</p>  */}
+  
+                  </div> 
+                  <div> 
+                      <img src="/Container1.png" alt="image2" /> 
+                      {/* <p className="legend">Image 2</p>  */}
+  
+                  </div> 
+                  
+                 
+            
+              </Carousel> 
         </div>
       </div>
       <div className="self-stretch flex-1 flex flex-col items-center justify-center min-w-[480px] text-11xl">
         <div className="self-stretch flex-1 flex flex-col items-center justify-center p-8 relative">
-          <div className="w-full flex flex-col items-start justify-start gap-[32px_0px] max-w-[520px] z-[0]">
+          <div className="w-full flex flex-col items-start justify-start gap-[32px_0px] max-w-[460px] z-[0]">
             <div className="self-stretch flex flex-col items-start justify-start gap-[32px_0px]">
               <div className="self-stretch flex flex-col items-center justify-start">
                 <div className="self-stretch flex flex-col items-start justify-start gap-[12px_0px]">
@@ -644,7 +849,7 @@ const SignUpComponent = () => {
                   </div>
                 </div>
               </div>
-              <form onSubmit={onLoginSubmit}>
+              <form onSubmit={onSignUpSubmit}>
                 <div className="self-stretch rounded-spacing-lg flex flex-col items-center justify-start gap-[24px_0px] text-sm text-component-colors-components-buttons-secondary-button-secondary-fg">
                   <div className="self-stretch flex flex-col items-start justify-start gap-[20px_0px]">
                     <div className="self-stretch flex flex-row items-start justify-start gap-[0px_20px]">
@@ -653,11 +858,7 @@ const SignUpComponent = () => {
                           <div className="relative leading-[20px] font-medium">
                             First Name*
                           </div>
-                          <input
-                            required
-                            placeholder="Enter your first name"
-                            className="self-stretch rounded-radius-md bg-colors-background-bg-primary shadow-[0px_1px_2px_rgba(16,_24,_40,_0.05)] flex flex-row items-center justify-start py-2.5 px-3.5 gap-[0px_8px] text-base text-colors-text-text-quarterary-500 border-[1px] border-solid border-component-colors-components-buttons-secondary-button-secondary-border"
-                          />
+                          <input required ref={fNameRef} placeholder="Enter your first name" className="self-stretch rounded-radius-md bg-colors-background-bg-primary shadow-[0px_1px_2px_rgba(16,_24,_40,_0.05)] flex flex-row items-center justify-start py-2.5 px-3.5 gap-[0px_8px] text-base text-colors-text-text-quarterary-500 border-[1px] border-solid border-component-colors-components-buttons-secondary-button-secondary-border" />
                           {/* <div className="self-stretch rounded-radius-md bg-colors-background-bg-primary shadow-[0px_1px_2px_rgba(16,_24,_40,_0.05)] flex flex-row items-center justify-start py-2.5 px-3.5 gap-[0px_8px] text-base text-colors-text-text-quarterary-500 border-[1px] border-solid border-component-colors-components-buttons-secondary-button-secondary-border">
                             <div className="flex-1 flex flex-row items-center justify-start">
                               <div className="flex-1 relative leading-[24px] overflow-hidden text-ellipsis whitespace-nowrap">
@@ -680,11 +881,7 @@ const SignUpComponent = () => {
                           <div className="relative leading-[20px] font-medium">
                             Last Name*
                           </div>
-                          <input
-                            required
-                            placeholder="Enter your last name"
-                            className="self-stretch rounded-radius-md bg-colors-background-bg-primary shadow-[0px_1px_2px_rgba(16,_24,_40,_0.05)] flex flex-row items-center justify-start py-2.5 px-3.5 gap-[0px_8px] text-base text-colors-text-text-quarterary-500 border-[1px] border-solid border-component-colors-components-buttons-secondary-button-secondary-border"
-                          />
+                          <input required ref={lNameRef} placeholder="Enter your last name" className="self-stretch rounded-radius-md bg-colors-background-bg-primary shadow-[0px_1px_2px_rgba(16,_24,_40,_0.05)] flex flex-row items-center justify-start py-2.5 px-3.5 gap-[0px_8px] text-base text-colors-text-text-quarterary-500 border-[1px] border-solid border-component-colors-components-buttons-secondary-button-secondary-border" />
                           {/* <div className="self-stretch rounded-radius-md bg-colors-background-bg-primary shadow-[0px_1px_2px_rgba(16,_24,_40,_0.05)] flex flex-row items-center justify-start py-2.5 px-3.5 gap-[0px_8px] text-base text-colors-text-text-quarterary-500 border-[1px] border-solid border-component-colors-components-buttons-secondary-button-secondary-border">
                             <div className="flex-1 flex flex-row items-center justify-start">
                               <div className="flex-1 relative leading-[24px] overflow-hidden text-ellipsis whitespace-nowrap">
@@ -708,12 +905,7 @@ const SignUpComponent = () => {
                         <div className="relative leading-[20px] font-medium">
                           Email*
                         </div>
-                        <input
-                          required
-                          ref={emailRef}
-                          placeholder="Enter your email"
-                          className="self-stretch rounded-radius-md bg-colors-background-bg-primary shadow-[0px_1px_2px_rgba(16,_24,_40,_0.05)] flex flex-row items-center justify-start py-2.5 px-3.5 gap-[0px_8px] text-base text-colors-text-text-quarterary-500 border-[1px] border-solid border-component-colors-components-buttons-secondary-button-secondary-border"
-                        />
+                        <input required ref={emailRef} placeholder="Enter your email" className="self-stretch rounded-radius-md bg-colors-background-bg-primary shadow-[0px_1px_2px_rgba(16,_24,_40,_0.05)] flex flex-row items-center justify-start py-2.5 px-3.5 gap-[0px_8px] text-base text-colors-text-text-quarterary-500 border-[1px] border-solid border-component-colors-components-buttons-secondary-button-secondary-border" />
                         {/* <div className="self-stretch rounded-radius-md bg-colors-background-bg-primary shadow-[0px_1px_2px_rgba(16,_24,_40,_0.05)] flex flex-row items-center justify-start py-2.5 px-3.5 gap-[0px_8px] text-base text-colors-text-text-quarterary-500 border-[1px] border-solid border-component-colors-components-buttons-secondary-button-secondary-border">
                           <div className="flex-1 flex flex-row items-center justify-start">
                             <div className="flex-1 relative leading-[24px] overflow-hidden text-ellipsis whitespace-nowrap">
@@ -737,10 +929,7 @@ const SignUpComponent = () => {
                           <div className="relative leading-[20px] font-medium">
                             Organisation
                           </div>
-                          <input
-                            placeholder="Enter your organisation"
-                            className="self-stretch rounded-radius-md bg-colors-background-bg-primary shadow-[0px_1px_2px_rgba(16,_24,_40,_0.05)] flex flex-row items-center justify-start py-2.5 px-3.5 gap-[0px_8px] text-base text-colors-text-text-quarterary-500 border-[1px] border-solid border-component-colors-components-buttons-secondary-button-secondary-border"
-                          />
+                          <input required ref={organisationRef} placeholder="Enter your organisation" className="self-stretch rounded-radius-md bg-colors-background-bg-primary shadow-[0px_1px_2px_rgba(16,_24,_40,_0.05)] flex flex-row items-center justify-start py-2.5 px-3.5 gap-[0px_8px] text-base text-colors-text-text-quarterary-500 border-[1px] border-solid border-component-colors-components-buttons-secondary-button-secondary-border" />
                           {/* <div className="self-stretch rounded-radius-md bg-colors-background-bg-primary shadow-[0px_1px_2px_rgba(16,_24,_40,_0.05)] flex flex-row items-center justify-start py-2.5 px-3.5 gap-[0px_8px] text-base text-colors-text-text-quarterary-500 border-[1px] border-solid border-component-colors-components-buttons-secondary-button-secondary-border">
                             <div className="flex-1 flex flex-row items-center justify-start">
                               <div className="flex-1 relative leading-[24px] overflow-hidden text-ellipsis whitespace-nowrap">
@@ -763,10 +952,7 @@ const SignUpComponent = () => {
                           <div className="relative leading-[20px] font-medium">
                             Sector
                           </div>
-                          <input
-                            placeholder="Select team member"
-                            className="self-stretch rounded-radius-md bg-colors-background-bg-primary shadow-[0px_1px_2px_rgba(16,_24,_40,_0.05)] overflow-hidden flex flex-row items-center justify-start py-2.5 px-3.5 gap-[0px_8px] text-base text-colors-text-text-quarterary-500 border-[1px] border-solid border-component-colors-components-buttons-secondary-button-secondary-border"
-                          />
+                          <input required ref={sectorRef} placeholder="Select team member" className="self-stretch rounded-radius-md bg-colors-background-bg-primary shadow-[0px_1px_2px_rgba(16,_24,_40,_0.05)] overflow-hidden flex flex-row items-center justify-start py-2.5 px-3.5 gap-[0px_8px] text-base text-colors-text-text-quarterary-500 border-[1px] border-solid border-component-colors-components-buttons-secondary-button-secondary-border" />
                           {/* <div className="self-stretch rounded-radius-md bg-colors-background-bg-primary shadow-[0px_1px_2px_rgba(16,_24,_40,_0.05)] overflow-hidden flex flex-row items-center justify-start py-2.5 px-3.5 gap-[0px_8px] text-base text-colors-text-text-quarterary-500 border-[1px] border-solid border-component-colors-components-buttons-secondary-button-secondary-border">
                             <div className="flex-1 flex flex-row items-center justify-start">
                               <div className="flex-1 relative leading-[24px] overflow-hidden text-ellipsis whitespace-nowrap">
@@ -791,13 +977,9 @@ const SignUpComponent = () => {
                           <div className="relative leading-[20px] font-medium">
                             New Password
                           </div>
-                          <input
-                            required
-                            type="password"
-                            placeholder="Enter Password"
-                            className="self-stretch rounded-radius-md bg-colors-background-bg-primary shadow-[0px_1px_2px_rgba(16,_24,_40,_0.05)] flex flex-row items-center justify-start py-2.5 px-3.5 gap-[0px_8px] text-base text-colors-text-text-primary-900 border-[1px] border-solid border-component-colors-components-buttons-secondary-button-secondary-border"
-                          />
-                          {/* <div className="self-stretch rounded-radius-md bg-colors-background-bg-primary shadow-[0px_1px_2px_rgba(16,_24,_40,_0.05)] flex flex-row items-center justify-start py-2.5 px-3.5 gap-[0px_8px] text-base text-colors-text-text-primary-900 border-[1px] border-solid border-component-colors-components-buttons-secondary-button-secondary-border">
+                          <div>
+                            <input required ref={passwordRef} placeholder="Enter Password" type={showPass ? "text" : "password"} className="self-stretch rounded-radius-md bg-colors-background-bg-primary shadow-[0px_1px_2px_rgba(16,_24,_40,_0.05)] flex flex-row items-center justify-start py-2.5 px-3.5 gap-[0px_8px] text-base text-colors-text-text-primary-900 border-[1px] border-solid border-component-colors-components-buttons-secondary-button-secondary-border" />
+                            {/* <div className="self-stretch rounded-radius-md bg-colors-background-bg-primary shadow-[0px_1px_2px_rgba(16,_24,_40,_0.05)] flex flex-row items-center justify-start py-2.5 px-3.5 gap-[0px_8px] text-base text-colors-text-text-primary-900 border-[1px] border-solid border-component-colors-components-buttons-secondary-button-secondary-border">
                             <div className="flex-1 flex flex-row items-center justify-start">
                               <div className="flex-1 relative leading-[24px] overflow-hidden text-ellipsis whitespace-nowrap">
                                 ncsjdnsvs32932
@@ -809,6 +991,15 @@ const SignUpComponent = () => {
                               src="/eyeoff.svg"
                             />
                           </div> */}
+                            <div style={{ width: '50px', position: 'relative', top: '-33px', left: '195px' }}>
+                              <img
+                                className="w-5 relative h-5 overflow-hidden shrink-0"
+                                onClick={() => setshowPass(!showPass)}
+                                alt="eye ICon"
+                                src={showPass ? "/eyeoff.svg" : "/eye.svg"}
+                              />
+                            </div>
+                          </div>
                           <div className="self-stretch relative leading-[20px] text-component-colors-components-buttons-tertiary-button-tertiary-fg">
                             Must be at least 8 characters.
                           </div>
@@ -822,37 +1013,26 @@ const SignUpComponent = () => {
                           <div className="relative leading-[20px] font-medium">
                             Confirm New Password
                           </div>
-                          <input
-                            required
-                            type="password"
-                            ref={passwordRef}
-                            placeholder="Confirm Password"
-                            className="self-stretch rounded-radius-md bg-colors-background-bg-primary shadow-[0px_1px_2px_rgba(16,_24,_40,_0.05)] flex flex-row items-center justify-start py-2.5 px-3.5 gap-[0px_8px] text-base text-colors-text-text-primary-900 border-[1px] border-solid border-component-colors-components-buttons-secondary-button-secondary-border"
-                          />
-                          {/* <div className="self-stretch rounded-radius-md bg-colors-background-bg-primary shadow-[0px_1px_2px_rgba(16,_24,_40,_0.05)] flex flex-row items-center justify-start py-2.5 px-3.5 gap-[0px_8px] text-base text-colors-text-text-primary-900 border-[1px] border-solid border-component-colors-components-buttons-secondary-button-secondary-border">
-                            <div className="flex-1 flex flex-row items-center justify-start">
-                              <div className="flex-1 relative leading-[24px] overflow-hidden text-ellipsis whitespace-nowrap">
-                                ****************
-                              </div>
+                          <div>
+                            <input required ref={con_passwordReF} type={showC_Pass ? "text" : "password"} placeholder="Confirm Password" className="self-stretch rounded-radius-md bg-colors-background-bg-primary shadow-[0px_1px_2px_rgba(16,_24,_40,_0.05)] flex flex-row items-center justify-start py-2.5 px-3.5 gap-[0px_8px] text-base text-colors-text-text-primary-900 border-[1px] border-solid border-component-colors-components-buttons-secondary-button-secondary-border" />
+                            <div style={{ width: '50px', position: 'relative', top: '-33px', left: '195px' }}>
+                              <img
+                                className="w-5 relative h-5 overflow-hidden shrink-0"
+                                onClick={() => setshowC_Pass(!showC_Pass)}
+                                alt="eye ICon"
+                                src={showC_Pass ? "/eyeoff.svg" : "/eye.svg"}
+                              />
                             </div>
-                            <img
-                              className="w-5 relative h-5 overflow-hidden shrink-0"
-                              alt=""
-                              src="/eye.svg"
-                            />
-                          </div> */}
+                          </div>
                         </div>
-                        <div className="w-80 relative leading-[20px] text-component-colors-components-buttons-tertiary-button-tertiary-fg hidden">
-                          This is a hint text to help user.
+                        <div className={`w-80 relative leading-[20px] text-bg-warning  text-component-colors-components-buttons-tertiary-button-tertiary-fg text-red-600 ${(password === con_password) && 'hidden'}`}>
+                          Confirm passwoed should be same !
                         </div>
                       </div>
                     </div>
                   </div>
                   <div className="self-stretch flex flex-col items-start justify-start text-base text-colors-background-bg-primary">
-                    <button
-                      type="submit"
-                      className="text-white cursor-pointer self-stretch rounded-radius-md bg-component-colors-components-buttons-primary-button-primary-bg shadow-[0px_1px_2px_rgba(16,_24,_40,_0.05)] overflow-hidden flex flex-row items-center justify-center py-2.5 px-spacing-xl gap-[0px_6px] border-[1px] border-solid border-component-colors-components-buttons-primary-button-primary-bg"
-                    >
+                    <button type="submit" className="text-white cursor-pointer self-stretch rounded-radius-md bg-component-colors-components-buttons-primary-button-primary-bg shadow-[0px_1px_2px_rgba(16,_24,_40,_0.05)] overflow-hidden flex flex-row items-center justify-center py-2.5 px-spacing-xl gap-[0px_6px] border-[1px] border-solid border-component-colors-components-buttons-primary-button-primary-bg">
                       <img
                         className="w-5 relative h-5 overflow-hidden shrink-0 hidden"
                         alt=""
@@ -878,40 +1058,35 @@ const SignUpComponent = () => {
               <div className="relative leading-[20px]">or</div>
               <div className="w-[90px] relative box-border h-px border-t-[1px] border-solid border-colors-border-border-secondary" />
             </div>
-            <div className="self-stretch flex flex-row items-start justify-start gap-[0px_8px]">
+            <div onClick={() => signInWithGoogle()} className="cursor-pointer self-stretch flex flex-row items-start justify-start gap-[0px_8px]">
               <div className="flex-1 flex flex-row items-center justify-center gap-[0px_12px]">
                 <div className="flex-1 rounded-radius-md bg-colors-background-bg-primary shadow-[0px_1px_2px_rgba(16,_24,_40,_0.05)] overflow-hidden flex flex-row items-center justify-center p-2.5 border-[1px] border-solid border-component-colors-components-buttons-secondary-button-secondary-border">
                   <img
                     className="w-6 relative h-6 overflow-hidden shrink-0"
                     alt="google icon"
-                    // onClick={handleSignIn}
+                    // onClick={() => signInWithGoogle()}
                     src="/social-icon6.svg"
                   />
-                  {/* <img
-                    className="w-6 relative h-6 overflow-hidden shrink-0"
-                    alt=""
-                    src="/social-icon.svg"
-                  /> */}
                 </div>
                 <div className="w-28 rounded-radius-md bg-colors-background-bg-primary shadow-[0px_1px_2px_rgba(16,_24,_40,_0.05)] box-border overflow-hidden hidden flex-row items-center justify-center p-2.5 border-[1px] border-solid border-component-colors-components-buttons-secondary-button-secondary-border">
                   <img
                     className="w-6 relative h-6 overflow-hidden shrink-0"
                     alt=""
-                    src="/social-icon.svg"
+                    src="/social-icon7.svg"
                   />
                 </div>
                 <div className="w-28 rounded-radius-md bg-colors-background-bg-primary shadow-[0px_1px_2px_rgba(16,_24,_40,_0.05)] box-border overflow-hidden hidden flex-row items-center justify-center p-2.5 border-[1px] border-solid border-component-colors-components-buttons-secondary-button-secondary-border">
                   <img
                     className="w-6 relative h-6 overflow-hidden shrink-0"
                     alt=""
-                    src="/social-icon.svg"
+                    src="/social-icon8.svg"
                   />
                 </div>
                 <div className="w-[81px] rounded-radius-md bg-colors-background-bg-primary shadow-[0px_1px_2px_rgba(16,_24,_40,_0.05)] box-border overflow-hidden hidden flex-row items-center justify-center p-2.5 border-[1px] border-solid border-component-colors-components-buttons-secondary-button-secondary-border">
                   <img
                     className="w-6 relative h-6 overflow-hidden shrink-0"
                     alt=""
-                    src="/social-icon.svg"
+                    src="/social-icon9.svg"
                   />
                 </div>
               </div>
@@ -978,20 +1153,22 @@ const SignUpComponent = () => {
             </div>
           </div>
           <div className="w-[720px] my-0 mx-[!important] absolute top-[0px] left-[0px] flex flex-row items-center justify-between p-8 box-border z-[1] text-xl text-colors-gray-dark-mode-900">
-            <div className="w-[127px] relative h-8">
-              <div className="absolute top-[calc(50%_-_16px)] left-[calc(50%_-_63.5px)] flex flex-row items-start justify-start">
-                <img
-                  className="w-8 relative rounded-spacing-md h-8 overflow-hidden shrink-0"
-                  alt=""
-                  src="/content.svg"
-                />
-              </div>
-              <div className="absolute h-full w-[66.93%] top-[0%] right-[0%] bottom-[0%] left-[33.07%]">
-                <div className="absolute top-[3.13%] left-[0%] leading-[30px] font-semibold">
-                  APIStore
+            <Link href='/'>
+              <div className="w-[127px] relative h-8">
+                <div className="absolute top-[calc(50%_-_16px)] left-[calc(50%_-_63.5px)] flex flex-row items-start justify-start">
+                  <img
+                    className="w-8 relative rounded-spacing-md h-8 overflow-hidden shrink-0"
+                    alt=""
+                    src="/content.svg"
+                  />
+                </div>
+                <div className="absolute h-full w-[66.93%] top-[0%] right-[0%] bottom-[0%] left-[33.07%]">
+                  <div className="absolute top-[3.13%] left-[0%] leading-[30px] font-semibold">
+                    APIStore
+                  </div>
                 </div>
               </div>
-            </div>
+            </Link>
             <div className="flex flex-row items-start justify-center gap-[0px_4px] text-sm text-component-colors-components-buttons-tertiary-button-tertiary-fg">
               <div className="relative leading-[20px]">
                 Already have an account?

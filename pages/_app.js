@@ -8,7 +8,7 @@ function MyApp({ Component, pageProps }) {
   const [UserInfo, setUserInfo] = useState(null)
   const [accessToken, setaccessToken] = useState(null)
   const router = useRouter();
-  console.log('routerdata===', router)
+  // console.log('routerdata===', router)
   useEffect(() => {
     const storedUserInfo = localStorage.getItem("userInfo");
     if (storedUserInfo) {
@@ -16,19 +16,19 @@ function MyApp({ Component, pageProps }) {
       setUserInfo(parsedUserInfo);
       setaccessToken(UserInfo?.stsTokenManager?.accessToken)
       console.log('storedUserInfo', storedUserInfo, UserInfo)
-      if(router.asPath == "/log-in"){
+      if(router.asPath == "/log_in"){
         // router.push("/")
       }
     }
     if(storedUserInfo == null){
-      // router.push("/log-in")
+      // router.push("/log_in")
 
     }
 
   }, []);
   
-  console.log('stsTokenManager', UserInfo?.stsTokenManager?.accessToken)
-  console.log('UserInfo', UserInfo)
+  // console.log('stsTokenManager', UserInfo?.stsTokenManager?.accessToken)
+  // console.log('UserInfo', UserInfo)
   return (
     <Fragment>
       <Head>

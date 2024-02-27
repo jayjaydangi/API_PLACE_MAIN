@@ -1,207 +1,29 @@
-import Link from "next/link";
-import CommonHeader from "../Commons/CommonHeader";
+import Link from 'next/link'
+import React from 'react'
 
-const APIKeyComponent = (setshowGenerateKey) => {
+function CommonFooter() {
     return (
-        <div className="w-full relative bg-colors-background-bg-primary overflow-hidden flex flex-col items-center justify-start text-left text-xl text-colors-gray-dark-mode-900 font-text-lg-regular">
-            <CommonHeader />
-
-            <div className="w-[1440px] relative h-[404px] z-[1] text-base text-component-colors-components-buttons-secondary-button-secondary-fg">
-                <div className="absolute top-[0px] left-[0px] bg-colors-background-bg-primary w-[1440px] overflow-hidden flex flex-col items-center justify-start py-spacing-6xl px-0 box-border">
-                    <div className="w-full flex flex-row items-start justify-start py-0 px-container-padding-desktop box-border gap-[0px_16px] max-w-[1280px]">
-                        <div className="w-[280px] overflow-hidden shrink-0 flex flex-col items-start justify-start py-spacing-xs px-0 box-border">
-                            <div className="self-stretch flex flex-row items-center justify-start py-px px-spacing-sm">
-                                <div className="flex-1 rounded-radius-sm flex flex-row items-center justify-start py-3 px-2.5 gap-[0px_12px]">
-                                    <div className="flex-1 flex flex-row items-center justify-start gap-[0px_12px]">
-                                        <img
-                                            className="w-5 relative h-5 overflow-hidden shrink-0"
-                                            alt=""
-                                            src="/user01.svg"
-                                        />
-                                        <div className="flex-1 relative leading-[24px] font-medium">
-                                            Account
-                                        </div>
-                                    </div>
-                                    <div className="w-[38px] relative text-xs leading-[18px] text-colors-text-text-quarterary-500 hidden">{`⌘K->P`}</div>
-                                </div>
-                            </div>
-                            <div className="self-stretch flex flex-row items-center justify-start py-px px-spacing-sm">
-                                <div className="flex-1 rounded-radius-sm flex flex-row items-center justify-start py-3 px-2.5 gap-[0px_12px]">
-                                    <div className="flex-1 flex flex-row items-center justify-start gap-[0px_12px]">
-                                        <img
-                                            className="w-5 relative h-5 overflow-hidden shrink-0"
-                                            alt=""
-                                            src="/bookclosed.svg"
-                                        />
-                                        <div className="flex-1 relative leading-[24px] font-medium">
-                                            API Subscriptions
-                                        </div>
-                                    </div>
-                                    <div className="w-5 relative text-xs leading-[18px] text-colors-text-text-quarterary-500 hidden">
-                                        ⌘S
-                                    </div>
-                                </div>
-                            </div>
-                            <div className="self-stretch flex flex-row items-center justify-start py-px px-spacing-sm">
-                                <div className="flex-1 rounded-radius-sm flex flex-row items-center justify-start py-3 px-2.5 gap-[0px_12px]">
-                                    <div className="flex-1 flex flex-row items-center justify-start gap-[0px_12px]">
-                                        <img
-                                            className="w-5 relative h-5 overflow-hidden shrink-0"
-                                            alt=""
-                                            src="/bookmarkcheck.svg"
-                                        />
-                                        <div className="flex-1 relative leading-[24px] font-medium">
-                                            Saved API
-                                        </div>
-                                    </div>
-                                    <div className="w-[39px] relative text-xs leading-[18px] text-colors-text-text-quarterary-500 hidden">{`⌘K->C`}</div>
-                                </div>
-                            </div>
-                            <div className="self-stretch flex flex-row items-center justify-start py-px px-spacing-sm">
-                                <div className="flex-1 rounded-radius-sm flex flex-row items-center justify-start py-3 px-2.5 gap-[0px_12px]">
-                                    <div className="flex-1 flex flex-row items-center justify-start gap-[0px_12px]">
-                                        <img
-                                            className="w-5 relative h-5 overflow-hidden shrink-0"
-                                            alt=""
-                                            src="/settings04.svg"
-                                        />
-                                        <div className="flex-1 relative leading-[24px] font-medium">
-                                            My Listed API
-                                        </div>
-                                    </div>
-                                    <div className="w-[39px] relative text-xs leading-[18px] text-colors-text-text-quarterary-500 hidden">{`⌘K->C`}</div>
-                                </div>
-                            </div>
-                            <div className="self-stretch flex flex-row items-center justify-start py-px px-spacing-sm">
-                                <div className="flex-1 rounded-radius-sm flex flex-row items-center justify-start py-3 px-2.5 gap-[0px_12px]">
-                                    <div className="flex-1 flex flex-row items-center justify-start gap-[0px_12px]">
-                                        <img
-                                            className="w-5 relative h-5 overflow-hidden shrink-0"
-                                            alt=""
-                                            src="/creditcardshield.svg"
-                                        />
-                                        <div className="flex-1 relative leading-[24px] font-medium">{`Billing & payment history`}</div>
-                                    </div>
-                                    <div className="w-[38px] relative text-xs leading-[18px] text-colors-text-text-quarterary-500 hidden">{`⌘K->T`}</div>
-                                </div>
-                            </div>
-                            <div className="self-stretch flex flex-row items-center justify-start py-px px-spacing-sm text-colors-text-text-secondary-hover">
-                                <div className="flex-1 rounded-radius-sm bg-colors-border-border-tertiary flex flex-row items-center justify-start py-3 px-2.5 gap-[0px_12px]">
-                                    <div className="flex-1 flex flex-row items-center justify-start gap-[0px_12px]">
-                                        <img
-                                            className="w-5 relative h-5 overflow-hidden shrink-0"
-                                            alt=""
-                                            src="/key01.svg"
-                                        />
-                                        <div className="flex-1 relative leading-[24px] font-medium">
-                                            API Key
-                                        </div>
-                                    </div>
-                                    <div className="w-[7px] relative text-xs leading-[18px] text-colors-text-text-quarterary-500 hidden">
-                                        ?
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div className="flex-1 flex flex-col items-start justify-start gap-[24px_0px] text-5xl text-colors-text-text-primary-900">
-                            <div className="relative leading-[32px] font-semibold">
-                                API Key
-                            </div>
-                            <div className="self-stretch flex flex-col items-start justify-center gap-[16px_0px] text-base">
-                                <div className="self-stretch relative leading-[24px]">
-                                    Use this API key in all requests for authentication and
-                                    access.
-                                </div>
-                                <Link href='/apikey_generate'>
-                                    <div className="rounded-radius-md bg-component-colors-components-buttons-primary-button-primary-bg shadow-[0px_1px_2px_rgba(16,_24,_40,_0.05)] overflow-hidden flex flex-row items-center justify-center py-2.5 px-3.5 gap-[0px_4px] text-sm text-colors-background-bg-primary border-[1px] border-solid border-component-colors-components-buttons-primary-button-primary-bg">
-                                        <img
-                                            className="w-5 relative h-5 overflow-hidden shrink-0 hidden"
-                                            alt=""
-                                            src="/checkcircle.svg"
-                                        />
-                                        <div className="flex flex-row items-center justify-center py-0 px-spacing-xxs">
-                                            <div className="relative leading-[20px] font-semibold">
-                                                Generate API Key
-                                            </div>
-                                        </div>
-                                        <img
-                                            className="w-5 relative h-5 overflow-hidden shrink-0 hidden"
-                                            alt=""
-                                            src="/placeholder2.svg"
-                                        />
-                                    </div>
-                                </Link>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+        <>
             <div className="w-[1440px] bg-colors-background-bg-primary overflow-hidden flex flex-col items-center justify-start pt-spacing-7xl px-0 pb-spacing-6xl box-border gap-[64px_0px] z-[0] text-11xl text-colors-text-text-primary-900">
-                <div className="w-[1280px] hidden flex-col items-start justify-start py-0 px-container-padding-desktop box-border max-w-[1280px] text-center">
-                    <div className="self-stretch flex flex-col items-center justify-center pt-0 px-0 pb-spacing-7xl gap-[32px] border-b-[1px] border-solid border-colors-border-border-secondary">
-                        <div className="w-full flex flex-col items-center justify-center gap-[16px_0px] min-w-[480px] max-w-[768px]">
-                            <div className="self-stretch relative leading-[38px] font-semibold">
-                                Want to contribute? Add your API
-                            </div>
-                            <div className="self-stretch relative text-xl leading-[30px] text-component-colors-components-buttons-tertiary-button-tertiary-fg">
-                                Join over 300+ developers already growing with APIStore.
-                            </div>
-                        </div>
-                        <div className="flex flex-row items-start justify-start gap-[0px_12px] text-left text-base text-colors-background-bg-primary">
-                            <div className="rounded-radius-md bg-component-colors-components-buttons-primary-button-primary-bg shadow-[0px_1px_2px_rgba(16,_24,_40,_0.05)] overflow-hidden flex flex-row items-center justify-center py-spacing-lg px-[18px] gap-[0px_6px] border-[1px] border-solid border-component-colors-components-buttons-primary-button-primary-bg">
-                                <img
-                                    className="w-5 relative h-5 overflow-hidden shrink-0 hidden"
-                                    alt=""
-                                    src="/placeholder2.svg"
-                                />
-                                <div className="flex flex-row items-center justify-center py-0 px-spacing-xxs">
-                                    <div className="relative leading-[24px] font-semibold">
-                                        Add API’s
-                                    </div>
-                                </div>
-                                <img
-                                    className="w-5 relative h-5 overflow-hidden shrink-0 hidden"
-                                    alt=""
-                                    src="/placeholder2.svg"
-                                />
-                            </div>
-                            <div className="rounded-radius-md bg-colors-background-bg-primary shadow-[0px_1px_2px_rgba(16,_24,_40,_0.05)] overflow-hidden flex flex-row items-center justify-center py-spacing-lg px-[18px] gap-[0px_6px] text-component-colors-components-buttons-secondary-button-secondary-fg border-[1px] border-solid border-component-colors-components-buttons-secondary-button-secondary-border">
-                                <img
-                                    className="w-5 relative h-5 overflow-hidden shrink-0 hidden"
-                                    alt=""
-                                    src="/placeholder1.svg"
-                                />
-                                <div className="flex flex-row items-center justify-center py-0 px-spacing-xxs">
-                                    <div className="relative leading-[24px] font-semibold">
-                                        Learn more
-                                    </div>
-                                </div>
-                                <img
-                                    className="w-5 relative h-5 overflow-hidden shrink-0 hidden"
-                                    alt=""
-                                    src="/placeholder1.svg"
-                                />
-                            </div>
-                        </div>
-                    </div>
-                </div>
                 <div className="w-full flex flex-col items-start justify-start py-0 px-container-padding-desktop box-border max-w-[1280px] text-xl text-colors-gray-dark-mode-900">
                     <div className="self-stretch flex flex-row flex-wrap items-start justify-start gap-[48px_64px]">
                         <div className="w-width-xs flex flex-col items-start justify-start gap-[32px_0px]">
-                            <div className="w-[127px] relative h-8">
-                                <div className="absolute top-[calc(50%_-_16px)] left-[calc(50%_-_63.5px)] flex flex-row items-start justify-start">
-                                    <img
-                                        className="w-8 relative rounded-spacing-md h-8 overflow-hidden shrink-0"
-                                        alt=""
-                                        src="/content.svg"
-                                    />
-                                </div>
-                                <div className="absolute h-full w-[66.93%] top-[0%] right-[0%] bottom-[0%] left-[33.07%]">
-                                    <div className="absolute top-[3.13%] left-[0%] leading-[30px] font-semibold">
-                                        APIStore
+                            <Link href='/'>
+                                <div className="w-[127px] relative h-8">
+                                    <div className="absolute top-[calc(50%_-_16px)] left-[calc(50%_-_63.5px)] flex flex-row items-start justify-start">
+                                        <img
+                                            className="w-8 relative rounded-spacing-md h-8 overflow-hidden shrink-0"
+                                            alt=""
+                                            src="/content.svg"
+                                        />
+                                    </div>
+                                    <div className="absolute h-full w-[66.93%] top-[0%] right-[0%] bottom-[0%] left-[33.07%]">
+                                        <div className="absolute top-[3.13%] left-[0%] leading-[30px] font-semibold">
+                                            APIStore
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
+                            </Link>
                             <div className="w-[335px] relative text-base leading-[24px] text-component-colors-components-buttons-tertiary-button-tertiary-fg inline-block">
                                 Unleashing the potential by connecting developers to a world of
                                 powerful APIs.
@@ -687,8 +509,8 @@ const APIKeyComponent = (setshowGenerateKey) => {
                     </div>
                 </div>
             </div>
-        </div>
-    );
-};
+        </>
+    )
+}
 
-export default APIKeyComponent;
+export default CommonFooter
