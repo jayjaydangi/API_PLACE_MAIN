@@ -131,7 +131,7 @@ export default function CommonHeader() {
                                     {/* <p> {userInfo?.email} </p> */}
                                     {/* <a href="#" title="Header" data-toggle="popover" data-placement="bottom" data-content="Content">Bottom</a> */}
                                 </div>
-                                <h5 onClick={()=>OnLogOutClick()} className='cursor-pointer' >LogOut</h5>
+                                <h5 onClick={()=>OnLogOutClick()} className='cursor-pointer' >Log Out</h5>
                             </>
                             :
                             <div className="flex flex-row items-center justify-start gap-[0px_12px] text-component-colors-components-buttons-secondary-button-secondary-fg">
