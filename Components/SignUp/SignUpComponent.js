@@ -9,7 +9,6 @@ import Router, { useRouter } from "next/router";
 // import { Alert } from "flowbite-react";
 import axios from "axios";
 
-// import { auth } from '../Components/Firebase/Firebase';
 const SignUpComponent = () => {
   const router = useRouter();
   const fNameRef = useRef();
@@ -25,101 +24,9 @@ const SignUpComponent = () => {
   const [showC_Pass, setshowC_Pass] = useState(false)
   const [isSubmitting, setIsSubmitting] = useState(false);
   // const dbFireStore = getFirestore();
-  // console.log('dbFireStore', dbFireStore)
   console.log('setuserPersonalDetails', userPersonalDetails)
   const password = passwordRef?.current?.value;
   const con_password = con_passwordReF?.current?.value;
-
-  // const onSignUpSubmit = async (e) => {
-  //   e.preventDefault();
-  //   const fName = fNameRef.current.value;
-  //   const lName = lNameRef.current.value;
-  //   const email = emailRef.current.value;
-  //   const organisation = organisationRef.current.value;
-  //   const sector = sectorRef.current.value;
-
-  //   // Get all user information
-
-  //   try {
-  //     var user;
-  //     if (password === con_password) {
-  //       console.log('password === con_password', password, con_password)
-  //       try {
-  //         const userCredential = await createUserWithEmailAndPassword(auth, email, con_password);
-  //         user = userCredential.user;
-  //         console.log('userCredential', userCredential.user)
-  //         localStorage.setItem('userInfo', JSON.stringify(user));
-
-  //       } catch (error) {
-  //         console.log('userCredential error : ', error)
-
-  //       }
-  //       // Get the newly created user object
-  //     } else {
-  //       alert("Password is not same")
-  //     }
-  //     console.log('userCredential', user)
-  //     // Create a user object with all information
-  //     // const userData = {
-  //     //   uid: user.uid,
-  //     //   fName,
-  //     //   lName,
-  //     //   email,
-  //     //   organisation,
-  //     //   sector,
-  //     //   // Add other relevant user information
-  //     // };
-  //     var bodyParams = {
-  //       "id": user.uid,
-  //       "firstName": fName,
-  //       "lastName": lName,
-  //       "username": email,
-  //       "email": email,
-  //       "organizationName": organisation,
-  //       "profilePictureUrl": "string",
-  //       "websiteLink": "string",
-  //       "phoneNumber": "string",
-  //       "state": sector,
-  //       "loginProvider": "string"
-  //     }
-  //     const headers = {
-  //       'Authorization': `Bearer ${user?.stsTokenManager?.accessToken}`, // Replace with your actual authorization token
-  //       'Content-Type': 'application/json'
-  //       // Add any other headers if needed
-  //     };
-  //     // Store user data in Firestore
-  //     // await dbFireStore.collection('users').doc(user.uid).set(userData);
-
-  //     try {
-  //       const response = await axios.post(process.env.NEXT_PUBLIC_BASE_URL, { headers }, bodyParams);
-  //       // const response = axios.post("https://gatewaysvc-dev.azurewebsites.net/api/users/", { headers }, bodyParams);
-  //       //  const userPersonalDetails = axios.push(`https://gatewaysvc-dev.azurewebsites.net/api/users/${user.uid}`);
-  //       // const docRef = await addDoc(collection(dbFireStore, userData))
-  //       console.log('Response:', response.data);
-  //       setuserPersonalDetails(response)
-  //       localStorage.setItem('userPnl_Info', JSON.stringify(response));
-  //       console.log('User data inserted', response)
-  //       return response.data;
-  //     } catch (error) {
-  //       console.warn("Error fetching data : ", error);
-  //     }
-
-  //     // Optional: Store user information locally (consider security implications)
-  //     localStorage.setItem('userInfo', JSON.stringify(user));
-
-  //     // Redirect to login or other appropriate page
-  //     router.push('/log_in'); // Replace with your desired redirect path
-
-  //     alert('Signup successful!');
-  //     console.log('Signup successful:', user);
-  //   } catch (error) {
-  //     const errorCode = error.code;
-  //     const errorMessage = error.message;
-
-  //     alert('Signup failed:', errorMessage, errorCode);
-  //     console.error('Signup error:', error);
-  //   }
-  // };
 
   const onSignUpSubmit = async (e) => {
     e.preventDefault();
@@ -226,25 +133,7 @@ const SignUpComponent = () => {
         console.error("Error in fetching user api signInWithPopup " , error)
       }
 
-      // await fetch(`https://gatewaysvc-dev.azurewebsites.net/api/users/${user.uid}`, { headerD })
-      //   .then((response) => response.json())
-      //   .then((data) => {
-      //     setUserData(data); // Save user data to state
-      //     localStorage.setItem('userPnl_Info', JSON.stringify({
-      //       data
-      //     }))
-      //   })
-      //   .catch((error) => console.error('Error fetching user data:', error));
-      // setFormValues({
-      //   firstName: data?.firstName || '',
-      //   lastName: data?.lastName || '',
-      //   email: data?.email || '',
-      //   username: data?.username || '',
-      //   organization: data?.organizationName || '',
-      //   category: data?.category || 'Software',
-      //   description: data?.description || '',
-      //   profilePictureUrl: data?.profilePictureUrl || '',
-      // });
+    
       Router.push("/");
       setIsSubmitting(false);
     } catch (error) {

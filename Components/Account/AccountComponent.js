@@ -8,22 +8,30 @@ import useWindow from '../Commons/hasWindow';
 
 function AccountComponent({ profilefeatureData, getProfileReportsAction }) {
   const hasWindow = useWindow();
-const [showSucsses, setshowSucsses] = useState(false)
-const [disabled, setdisabled] = useState(true)
+  const [showSucsses, setshowSucsses] = useState(false)
+  const [formValues, setFormValues] = useState(null)
+  const [disabled, setdisabled] = useState(true)
+  // console.log('data', data); 
+
+   
   useEffect(() => {
-		const fetchData = async () => {
-			await getProfileReportsAction();
-		};
-    if(hasWindow){
+    const data = profilefeatureData?.response
+    setFormValues(data)
+  }, [profilefeatureData]);
+  useEffect(() => {
+    const fetchData = async () => {
+      await getProfileReportsAction();
+    };
+    if (hasWindow) {
       fetchData();
     }
-	}, [getProfileReportsAction]);
-
-  console.log('profilefeatureData',profilefeatureData);
-  console.log('env',process.env.NEXT_APP_HOST_API_URL);
-  const [formValues, setFormValues] = useState({...profilefeatureData.response})
+  }, [getProfileReportsAction]);
 
   console.log('formValues', formValues);
+  console.log('profilefeatureData', profilefeatureData);
+  console.log('env', process.env.NEXT_APP_HOST_API_URL);
+
+  // console.log('profilefeatureData?.headers', profilefeatureData?.headers);
 
   const handleInputChange = (fieldName, value) => {
     setdisabled(false)
@@ -185,7 +193,7 @@ const [disabled, setdisabled] = useState(true)
                     <div className="relative leading-[20px] font-medium">
                       Email*
                     </div>
-                    <input placeholder="Enter email" value={formValues?.email} onChange={(e) => handleInputChange('email', e.target.value)} className="self-stretch rounded-radius-md bg-colors-background-bg-primary-hover shadow-[0px_1px_2px_rgba(16,_24,_40,_0.05)] flex flex-row items-center justify-start py-2.5 px-3.5 gap-[0px_8px] text-base text-colors-text-text-quarterary-500 border-[1px] border-solid border-component-colors-components-buttons-secondary-button-secondary-border" />
+                    <input placeholder="Enter email" disabled value={formValues?.email} onChange={(e) => handleInputChange('email', e.target.value)} className="self-stretch rounded-radius-md bg-colors-background-bg-primary-hover shadow-[0px_1px_2px_rgba(16,_24,_40,_0.05)] flex flex-row items-center justify-start py-2.5 px-3.5 gap-[0px_8px] text-base text-colors-text-text-quarterary-500 border-[1px] border-solid border-component-colors-components-buttons-secondary-button-secondary-border" />
                     {/* <div className="self-stretch rounded-radius-md bg-colors-background-bg-primary-hover shadow-[0px_1px_2px_rgba(16,_24,_40,_0.05)] flex flex-row items-center justify-start py-2.5 px-3.5 gap-[0px_8px] text-base text-colors-text-text-quarterary-500 border-[1px] border-solid border-component-colors-components-buttons-secondary-button-secondary-border">
                     <div className="flex-1 flex flex-row items-center justify-start">
                       <div className="flex-1 relative leading-[24px] overflow-hidden text-ellipsis whitespace-nowrap">
@@ -194,7 +202,7 @@ const [disabled, setdisabled] = useState(true)
                     </div>
                     <img
                       className="w-4 relative h-4 hidden"
-                      alt=""
+                      alt=""d
                       src="/help-icon.svg"
                     />
                   </div> */}
