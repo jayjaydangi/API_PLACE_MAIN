@@ -1,32 +1,28 @@
 import Link from "next/link";
-import CommonHeader from "../Commons/CommonHeader";
+// import CommonHeader from "../Commons/Header";
 import ApiCard from "../Commons/ApiCard";
 import { Featured_Apis } from './Featured_SectionData'
 import { Browse_Apis } from "./BrowseSectionData";
 import CommonFooter from "../Commons/CommonFooter";
 import { useEffect, useState } from "react";
+import { getFeatureReportsAction } from "../../Components/store/actions/homeAction"
+import { connect } from "react-redux";
+import CommonHeader from "../Commons/CommonHeader";
 
-const ProductHomePage = ({ Projects }) => {
-    console.log('Projects in ProductHomePage ', Projects)
-    // const [apiData, setapiData] = useState([])
-    const Featured_Apisdata = Featured_Apis;
-    // useEffect(() => {
-    //     try {
-    //         fetch('https://gatewaysvc-dev.azurewebsites.net/api/Projects')
-    //             .then(response => response.json())
-    //             .then((data) => { setapiData(data); console.log(data) })
-    //             .catch(error => console.error('Error:', error));
 
-    //     } catch (error) {
-    //         console.error(error)
-    //     }
-    //     console.log('apiData', apiData)
-    //     //   return () => {
+const ProductHomePage = ({
+    getFeatureReportsAction,
+    homefeatureData
+}) => {
+    useEffect(() => {
+        const fetchData = async () => {
+            await getFeatureReportsAction();
+        };
 
-    //     //   }
-    // }, [])
+        fetchData();
+    }, [getFeatureReportsAction]);
 
-    // console.log('Featured_Apisdata', Browse_Apis, Featured_Apisdata)
+
     return (
         <div className="w-full relative bg-colors-background-bg-primary overflow-hidden flex flex-col items-center justify-start text-left text-5xl text-colors-text-text-primary-900 font-text-lg-regular">
             <CommonHeader />
@@ -89,7 +85,7 @@ const ProductHomePage = ({ Projects }) => {
                 <div className="w-full flex flex-col items-start justify-start py-0 px-container-padding-desktop box-border max-w-[1280px] text-base">
                     <div className="self-stretch flex flex-row items-start justify-start relative gap-[0px_16px] overflow-auto ">
 
-                        {Projects?.items?.map((Featured_Apis, index) => {
+                        {homefeatureData?.map((Featured_Apis, index) => {
                             return (
                                 <div key={index}>
                                     <Link href={`api_detail/${Featured_Apis?.id}`} style={{ textDecoration: 'none' }} >
@@ -98,11 +94,6 @@ const ProductHomePage = ({ Projects }) => {
                                 </div>
                             )
                         })}
-
-
-
-
-
 
                     </div>
                 </div>
@@ -421,7 +412,7 @@ const ProductHomePage = ({ Projects }) => {
                         </div>
                     </div>
                     <div className="w-[932px] flex flex-row flex-wrap items-start justify-start gap-[16px] text-base text-colors-text-text-primary-900">
-                        {Projects?.items?.map((Browse_Api, index) => {
+                        {/* {homefeatureData?.items?.map((Browse_Api, index) => {
                             return (
                                 <div key={Browse_Api?.id}>
                                     <Link href={`api_detail/${index + 1}`} style={{ textDecoration: 'none' }} >
@@ -429,8 +420,18 @@ const ProductHomePage = ({ Projects }) => {
                                     </Link>
                                 </div>
                             )
+                        })} */}
+                          {homefeatureData?.map((Featured_Apis, index) => {
+                            return (
+                                <div key={index}>
+                                    <Link href={`api_detail/${Featured_Apis?.id}`} style={{ textDecoration: 'none' }} >
+                                        <ApiCard ApiCardData={Featured_Apis} />
+                                    </Link>
+                                </div>
+                            )
                         })}
                     </div>
+
                 </div>
             </div>
             <img
@@ -495,4 +496,14 @@ const ProductHomePage = ({ Projects }) => {
     );
 };
 
-export default ProductHomePage;
+const mapStateToProps = (state) => (console.log("state------", state), {
+    homefeatureData: state.homeFeatureReducer.homefeatureData,
+
+});
+
+export default connect(mapStateToProps, {
+    getFeatureReportsAction
+})(ProductHomePage);
+
+
+// export default ProductHomePage;

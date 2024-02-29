@@ -7,6 +7,7 @@ import Image from 'next/image';
 import { signOut } from 'firebase/auth';
 import { auth } from "../Firebase/Firebase"; // Assuming you have `auth` imported from `./Firebase`
 import { useRouter } from 'next/router';
+import CommonSideBar from './CommonSideBar';
 
 
 
@@ -20,18 +21,18 @@ export default function CommonHeader() {
             setuserInfo(JSON.parse(localStorage.getItem("userInfo")))
         }
     }, [])
+    const [showPopup, setshowPopup] = useState(false)
     const profileClick = () => {
-        
+        setshowPopup(!showPopup);
     }
     
     const router = useRouter();
     const OnLogOutClick = async () => {
         try {
             await signOut(auth);
-            // Optional: Clear user information from local storage
             localStorage.removeItem('userInfo');
-            // Redirect to login or other appropriate page
-            router.push('/log_in'); // Replace with your desired redirect path
+            localStorage.removeItem('userPnl_Info');
+            router.push('/log_in');
             alert('Logged out successfully!');
         } catch (error) {
             const errorCode = error.code;
@@ -123,15 +124,16 @@ export default function CommonHeader() {
                         {userInfo?.stsTokenManager?.accessToken || userInfo?.user?.stsTokenManager?.accessToken ?
                             <>
                                 <div onClick={() => profileClick()} style={{ display: 'block', alignItems: 'center', textAlign: 'center', marginLeft: '20px' }}>
-                                    <Link href='/account'>
+                                    {/* <Link href='/account'> */}
                                         <div className="w-11 relative rounded-radius-full h-11 bg-[url('/avatar15@3x.png')] bg-cover bg-no-repeat bg-[top]">
                                             <div className="absolute h-full w-full top-[0px] right-[0px] bottom-[0px] left-[0px] rounded-radius-full box-border overflow-hidden border-[0.7px] border-solid border-component-colors-components-avatars-avatar-contrast-border" />
                                         </div>
-                                    </Link>
+                                    {/* </Link> */}
                                     {/* <p> {userInfo?.email} </p> */}
                                     {/* <a href="#" title="Header" data-toggle="popover" data-placement="bottom" data-content="Content">Bottom</a> */}
                                 </div>
-                                <h5 onClick={()=>OnLogOutClick()} className='cursor-pointer' >Log Out</h5>
+                                {/* <h5 onClick={()=>OnLogOutClick()} className='cursor-pointer' >LogOut</h5> */}
+                               {showPopup  && <CommonSideBar OnLogOutClick={OnLogOutClick} />}
                             </>
                             :
                             <div className="flex flex-row items-center justify-start gap-[0px_12px] text-component-colors-components-buttons-secondary-button-secondary-fg">

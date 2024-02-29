@@ -2,6 +2,8 @@ import { Fragment, useEffect, useState } from "react";
 import Head from "next/head";
 import "./global.css";
 import { useRouter } from "next/router";
+import { Provider } from "react-redux";
+import store from "../Components/store/store";
 // import { Router } from "next/router";
 
 function MyApp({ Component, pageProps }) {
@@ -30,6 +32,8 @@ function MyApp({ Component, pageProps }) {
   // console.log('stsTokenManager', UserInfo?.stsTokenManager?.accessToken)
   // console.log('UserInfo', UserInfo)
   return (
+    <Provider store={store}>
+
     <Fragment>
       <Head>
         <title>ApiStore</title>
@@ -40,6 +44,8 @@ function MyApp({ Component, pageProps }) {
       </Head>
       <Component {...pageProps}/>
     </Fragment>
+    </Provider>
+
   );
 }
 

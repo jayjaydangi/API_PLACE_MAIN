@@ -48,8 +48,16 @@ function Api_Key() {
         }
 
     }
-
-
+    // const [copySuccess, setCopySuccess] = useState('');
+    // const textAreaRef = useRef(null);
+    // function copyToClipboard(e) {
+    //     textAreaRef.current.select();
+    //     document.execCommand('copy');
+    //     // This is just personal preference.
+    //     // I prefer to not show the whole text area selected.
+    //     e.target.focus();
+    //     setCopySuccess('Copied!');
+    //   };
     return (
         <>
             <div className="flex-1 flex flex-col items-start justify-start gap-[24px_0px] text-5xl text-colors-text-text-primary-900">
@@ -71,7 +79,7 @@ function Api_Key() {
                                     <div className="self-stretch rounded-radius-md bg-colors-background-bg-primary shadow-[0px_1px_2px_rgba(16,_24,_40,_0.05)] flex flex-row items-start justify-start text-base text-colors-text-text-primary-900 border-[1px] border-solid border-component-colors-components-buttons-secondary-button-secondary-border">
                                         <div className="flex-1 rounded-tl-spacing-md rounded-tr-none rounded-br-none rounded-bl-spacing-md bg-colors-background-bg-primary overflow-hidden flex flex-row items-center justify-start py-spacing-md px-spacing-lg gap-[0px_8px] z-[1] border-t-[1px] border-solid border-component-colors-components-buttons-secondary-button-secondary-border border-b-[1px] border-l-[1px]">
                                             <div className="flex-1 relative leading-[24px] overflow-hidden text-ellipsis whitespace-nowrap">
-                                                {keyRes ?? "aC3BhR8t9W1eQ4z5"}
+                                                {keyRes?.data?.apiKey ?? "aC3BhR8t9W1eQ4z5"}
                                             </div>
                                             <img
                                                 className="w-4 relative h-4 hidden"

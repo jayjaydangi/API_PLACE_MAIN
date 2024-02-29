@@ -3,9 +3,6 @@ import Router from "next/router";
 import { useEffect, useState } from "react";
 import { auth } from "../Firebase/Firebase";
 import { GoogleAuthProvider, sendEmailVerification, signInWithEmailAndPassword, signInWithPopup } from "firebase/auth";
-import "react-responsive-carousel/lib/styles/carousel.min.css"; 
-
-import { Carousel } from 'react-responsive-carousel'; 
 
 const LogInComponent = () => {
     const [userInfo, setUserInfo] = useState('')
@@ -36,17 +33,12 @@ const LogInComponent = () => {
             // Check if verification is required
             const user = userCredential.user;
             if (user && !user.emailVerified) {
-                // Send custom verification email if not already verified
                 await sendCustomEmailVerification(user);
                 localStorage.setItem('userInfo', JSON.stringify(user));
                 alert('User logged in successfully!');
-                // alert('Verification email sent!');
-                // setisVerificationStage(true);
-                // Prompt user to enter verification code if needed
                 setVerificationCode('');
                 Router.push("/");
             } else {
-                // User is already verified, redirect to successful login page
                 console.log('User logged in successfully!');
                 Router.push("/");
 
@@ -59,10 +51,6 @@ const LogInComponent = () => {
             setIsSubmitting(false);
         }
     };
-
-
-
-
 
 
     useEffect(() => {
@@ -85,11 +73,36 @@ const LogInComponent = () => {
             const user = await signInWithPopup(auth, provider);
             console.log('provider signInWithGoogle', provider, user)
             localStorage.setItem('userInfo', JSON.stringify(user));
+            var headerD = {
+                'Authorization': `Bearer ${user?.stsTokenManager?.accessToken}`,
+                'Content-Type': 'application/json'
+            };
+            var bodyParams = {
+                "id": user.uid,
+                "firstName": user.displayName,
+                "lastName": "",
+                "username": user.displayName,
+                "email": user.email,
+                "organizationName": "",
+                "profilePictureUrl": "string",
+                "websiteLink": "string",
+                "phoneNumber": "string",
+                "state": "",
+                "loginProvider": "string"
+            };
+            try {
+                const response = await axios.post("https://gatewaysvc-dev.azurewebsites.net/api/Users", { headerD }, bodyParams);
+                console.log('Response:', response.data);
+                localStorage.setItem('userPnl_Info', JSON.stringify(response.data));
+                alert('Signup successful!');
+            } catch (error) {
+                console.error("Error in fetching user api signInWithPopup ", error)
+            }
+            alert('Signup successful!');
             Router.push("/");
         } catch (error) {
             console.error('Error signing in with google', error.message)
         }
-
     }
 
 
@@ -239,7 +252,7 @@ const LogInComponent = () => {
                 :
                 <div className="w-full relative bg-colors-background-bg-primary h-[960px] flex flex-row items-center justify-start min-h-[960px] text-left text-sm text-component-colors-components-buttons-tertiary-button-tertiary-fg font-text-lg-regular">
                     <div className="self-stretch flex-1 bg-colors-background-bg-brand-section overflow-hidden flex flex-col items-center justify-center py-spacing-11xl px-0">
-                        {/* <div className="self-stretch flex flex-col items-center justify-center py-0 px-container-padding-desktop gap-[64px_0px]">
+                        <div className="self-stretch flex flex-col items-center justify-center py-0 px-container-padding-desktop gap-[64px_0px]">
                             <div className="rounded-21xl flex flex-col items-center justify-start p-6 relative bg-[url('/content1@3x.png')] bg-cover bg-no-repeat bg-[top]">
                                 <div className="w-[416px] rounded-[8.35px] bg-colors-background-bg-primary shadow-[0px_0.7px_2.09px_rgba(16,_24,_40,_0.1),_0px_0.7px_1.39px_rgba(16,_24,_40,_0.06)] box-border overflow-hidden flex flex-col items-start justify-start z-[0] border-[0.7px] border-solid border-colors-border-border-secondary">
                                     <div className="w-[567.1px] flex flex-row items-start justify-start">
@@ -763,20 +776,7 @@ const LogInComponent = () => {
                                     </div>
                                 </div>
                             </div>
-                        </div> */}
-                        <Carousel> 
-                  <div> 
-                      <img src="/Container.png" alt="image1"/> 
-  
-                  </div> 
-                  <div> 
-                      <img src="/Container1.png" alt="image2" /> 
-  
-                  </div> 
-                  
-                 
-            
-              </Carousel> 
+                        </div>
                     </div>
                     <div className="self-stretch flex-1 flex flex-col items-center justify-start relative min-w-[480px] text-11xl text-colors-text-text-primary-900">
                         <div className="self-stretch flex-1 flex flex-col items-center justify-center py-0 px-container-padding-desktop z-[0]">

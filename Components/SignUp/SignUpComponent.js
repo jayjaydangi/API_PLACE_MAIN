@@ -7,10 +7,6 @@ import { auth } from "../Firebase/Firebase";
 import Router, { useRouter } from "next/router";
 // import { getFirestore } from "firebase/firestore";
 // import { Alert } from "flowbite-react";
-import "react-responsive-carousel/lib/styles/carousel.min.css"; 
-
-import { Carousel } from 'react-responsive-carousel'; 
-
 import axios from "axios";
 
 // import { auth } from '../Components/Firebase/Firebase';
@@ -27,7 +23,7 @@ const SignUpComponent = () => {
   const [userPersonalDetails, setuserPersonalDetails] = useState(null)
   const [showPass, setshowPass] = useState(false)
   const [showC_Pass, setshowC_Pass] = useState(false)
-
+  const [isSubmitting, setIsSubmitting] = useState(false);
   // const dbFireStore = getFirestore();
   // console.log('dbFireStore', dbFireStore)
   console.log('setuserPersonalDetails', userPersonalDetails)
@@ -198,22 +194,65 @@ const SignUpComponent = () => {
 
   //  Login with google auth
   const signInWithGoogle = async () => {
+    setIsSubmitting(true);
     const provider = new GoogleAuthProvider();
     try {
-      await signInWithPopup(auth, provider);
+      const user = await signInWithPopup(auth, provider);
+      console.log('provider signInWithGoogle', provider, user)
+      localStorage.setItem('userInfo', JSON.stringify(user));
+      var headerD = {
+        'Authorization': `Bearer ${user?.stsTokenManager?.accessToken}`,
+        'Content-Type': 'application/json'
+      };
+      var bodyParams = {
+        "id": user.uid,
+        "firstName": user.displayName,
+        "lastName": "",
+        "username": user.displayName,
+        "email": user.email,
+        "organizationName": "",
+        "profilePictureUrl": "string",
+        "websiteLink": "string",
+        "phoneNumber": "string",
+        "state": "",
+        "loginProvider":user.providerId,
+      };
+      try {
+        const response = await axios.post("https://gatewaysvc-dev.azurewebsites.net/api/Users", { headerD }, bodyParams);
+        console.log('Response:', response.data);
+        localStorage.setItem('userPnl_Info', JSON.stringify(response.data));
+        alert('Signup successful!');
+      } catch (error) {
+        console.error("Error in fetching user api signInWithPopup " , error)
+      }
+
+      // await fetch(`https://gatewaysvc-dev.azurewebsites.net/api/users/${user.uid}`, { headerD })
+      //   .then((response) => response.json())
+      //   .then((data) => {
+      //     setUserData(data); // Save user data to state
+      //     localStorage.setItem('userPnl_Info', JSON.stringify({
+      //       data
+      //     }))
+      //   })
+      //   .catch((error) => console.error('Error fetching user data:', error));
+      // setFormValues({
+      //   firstName: data?.firstName || '',
+      //   lastName: data?.lastName || '',
+      //   email: data?.email || '',
+      //   username: data?.username || '',
+      //   organization: data?.organizationName || '',
+      //   category: data?.category || 'Software',
+      //   description: data?.description || '',
+      //   profilePictureUrl: data?.profilePictureUrl || '',
+      // });
       Router.push("/");
+      setIsSubmitting(false);
     } catch (error) {
       console.error('Error signing in with google', error.message)
+      setIsSubmitting(false);
     }
 
   }
-
-
-
-
-
-
-
 
 
 
@@ -224,7 +263,7 @@ const SignUpComponent = () => {
     <div className="w-full relative bg-colors-background-bg-primary h-[960px] flex flex-row items-center justify-start min-h-[960px] text-left text-xs text-colors-text-text-primary-900 font-text-lg-regular">
       <div className="self-stretch flex-1 overflow-hidden flex flex-col items-start justify-start">
         <div className="self-stretch flex-1 bg-colors-background-bg-brand-section flex flex-col items-center justify-center py-spacing-11xl px-0">
-        {/*  <div className="self-stretch flex flex-col items-center justify-center py-0 px-spacing-4xl gap-[96px_0px]">
+          <div className="self-stretch flex flex-col items-center justify-center py-0 px-spacing-4xl gap-[96px_0px]">
             <div className="rounded-21xl flex flex-col items-center justify-start p-6 relative bg-[url('/content2@3x.png')] bg-cover bg-no-repeat bg-[top]">
               <div className="w-[416px] rounded-spacing-xl bg-colors-background-bg-primary h-64 flex flex-col items-start justify-start p-5 box-border relative gap-[8px_0px] z-[0] text-right text-component-colors-components-buttons-tertiary-button-tertiary-fg">
                 <div className="self-stretch flex-1 relative z-[0]">
@@ -816,23 +855,7 @@ const SignUpComponent = () => {
                 </div>
               </div>
             </div>
-          </div>*/}
-          
-<Carousel> 
-                  <div> 
-                      <img src="/Container.png" alt="image1"/> 
-                      {/* <p className="legend">Image 1</p>  */}
-  
-                  </div> 
-                  <div> 
-                      <img src="/Container1.png" alt="image2" /> 
-                      {/* <p className="legend">Image 2</p>  */}
-  
-                  </div> 
-                  
-                 
-            
-              </Carousel> 
+          </div>
         </div>
       </div>
       <div className="self-stretch flex-1 flex flex-col items-center justify-center min-w-[480px] text-11xl">
@@ -1025,11 +1048,11 @@ const SignUpComponent = () => {
                             </div>
                           </div>
                         </div>
+                      </div>
+                    </div>
                         <div className={`w-80 relative leading-[20px] text-bg-warning  text-component-colors-components-buttons-tertiary-button-tertiary-fg text-red-600 ${(password === con_password) && 'hidden'}`}>
                           Confirm passwoed should be same !
                         </div>
-                      </div>
-                    </div>
                   </div>
                   <div className="self-stretch flex flex-col items-start justify-start text-base text-colors-background-bg-primary">
                     <button type="submit" className="text-white cursor-pointer self-stretch rounded-radius-md bg-component-colors-components-buttons-primary-button-primary-bg shadow-[0px_1px_2px_rgba(16,_24,_40,_0.05)] overflow-hidden flex flex-row items-center justify-center py-2.5 px-spacing-xl gap-[0px_6px] border-[1px] border-solid border-component-colors-components-buttons-primary-button-primary-bg">
@@ -1061,12 +1084,14 @@ const SignUpComponent = () => {
             <div onClick={() => signInWithGoogle()} className="cursor-pointer self-stretch flex flex-row items-start justify-start gap-[0px_8px]">
               <div className="flex-1 flex flex-row items-center justify-center gap-[0px_12px]">
                 <div className="flex-1 rounded-radius-md bg-colors-background-bg-primary shadow-[0px_1px_2px_rgba(16,_24,_40,_0.05)] overflow-hidden flex flex-row items-center justify-center p-2.5 border-[1px] border-solid border-component-colors-components-buttons-secondary-button-secondary-border">
-                  <img
-                    className="w-6 relative h-6 overflow-hidden shrink-0"
-                    alt="google icon"
-                    // onClick={() => signInWithGoogle()}
-                    src="/social-icon6.svg"
-                  />
+                  {isSubmitting ? 'Verifying...' :
+                    <img
+                      className="w-6 relative h-6 overflow-hidden shrink-0"
+                      alt="google icon"
+                      // onClick={() => signInWithGoogle()}
+                      src="/social-icon6.svg"
+                    />
+                  }
                 </div>
                 <div className="w-28 rounded-radius-md bg-colors-background-bg-primary shadow-[0px_1px_2px_rgba(16,_24,_40,_0.05)] box-border overflow-hidden hidden flex-row items-center justify-center p-2.5 border-[1px] border-solid border-component-colors-components-buttons-secondary-button-secondary-border">
                   <img

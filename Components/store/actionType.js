@@ -1,0 +1,12 @@
+const HOME_FEATURE_ACTION_TYPE = {
+	GEO_FEATURE_SUCCESS: 'GEO_FEATURE_SUCCESS',
+    GEO_PROFILE_SUCCESS: 'GEO_PROFILE_SUCCESS',
+
+};
+
+
+const ActionTypes = {
+    HOME_FEATURE_ACTION_TYPE
+};
+
+export default ActionTypes;

@@ -1,76 +1,36 @@
-import { collection, getDocs } from 'firebase/firestore'
 import Link from 'next/link'
 import React, { useEffect, useState } from 'react'
-// import { dbFireStore } from '../Firebase/Firebase'
+import {getProfileReportsAction} from "../../Components/store/actions/homeAction"
+import { connect } from "react-redux";
+import SuccessPopUp from '../SuccessPopUp';
+// import axios from 'axios';
 import useWindow from '../Commons/hasWindow';
 
-function AccountComponent({ onSaveClick }) {
+function AccountComponent({ profilefeatureData, getProfileReportsAction }) {
   const hasWindow = useWindow();
-  const [formValues, setFormValues] = useState({
-    firstName: '',
-    lastName: '',
-    email: '',
-    username: '',
-    organization: '',
-    category: 'Software',
-    description: '',
-    // profilePictureUrl:'',
-  });
-  const [userInfo, setuserInfo] = useState({})
+const [showSucsses, setshowSucsses] = useState(false)
+const [disabled, setdisabled] = useState(true)
   useEffect(() => {
-    if (hasWindow) {
-      setuserInfo(JSON.parse(localStorage.getItem("userInfo")))
-      setFormValues(JSON.parse(localStorage.getItem("userPnl_Info")))
+		const fetchData = async () => {
+			await getProfileReportsAction();
+		};
+    if(hasWindow){
+      fetchData();
     }
-  }, [hasWindow])
-  const u_id = userInfo?.uid;
-  const [userData, setUserData] = useState({});
-  console.log('userData', userData)
-  const headers = {
-    'Authorization': `Bearer ${userInfo?.stsTokenManager?.accessToken}`,
-    'Content-Type': 'application/json'
-    // Add any other headers if needed
-  };
-  useEffect(() => {
-    // Fetch user information from the API
-    fetch(`https://gatewaysvc-dev.azurewebsites.net/api/users/${u_id}`, { headers })
-      .then((response) => response.json())
-      .then((data) => {
-        setUserData(data); // Save user data to state
-        localStorage.setItem('userPnl_Info', JSON.stringify({
-          firstName: data?.firstName || '',
-          lastName: data?.lastName || '',
-          email: data?.email || '',
-          username: data?.username || '',
-          organization: data?.organizationName || '',
-          category: data?.category || 'Software',
-          description: data?.description || '',
-          profilePictureUrl: data?.profilePictureUrl || '',
-        }));
-        // setFormValues({
-        //   firstName: data?.firstName || '',
-        //   lastName: data?.lastName || '',
-        //   email: data?.email || '',
-        //   username: data?.username || '',
-        //   organization: data?.organizationName || '',
-        //   category: data?.category || 'Software',
-        //   description: data?.description || '',
-        //   profilePictureUrl: data?.profilePictureUrl || '',
-        // });
-      })
-      .catch((error) => console.error('Error fetching user data:', error));
-  }, [u_id, userInfo]);
+	}, [getProfileReportsAction]);
 
-  console.log('UserPersonalInfo userInfo: ', userInfo, formValues)
+  console.log('profilefeatureData',profilefeatureData);
+  console.log('env',process.env.NEXT_APP_HOST_API_URL);
+  const [formValues, setFormValues] = useState({...profilefeatureData.response})
 
+  console.log('formValues', formValues);
 
   const handleInputChange = (fieldName, value) => {
+    setdisabled(false)
     setFormValues({ ...formValues, [fieldName]: value });
   };
   const onUpdate_SaveClick = () => {
     localStorage.setItem("userPnl_Info", {})
-    // Implement the logic to send a request to update the user information
-    // Use the formValues state to get the updated user data
     const updatedUser = {
       firstName: formValues.firstName,
       lastName: formValues.lastName,
@@ -81,15 +41,17 @@ function AccountComponent({ onSaveClick }) {
       description: formValues.description,
     };
 
-    fetch(`https://gatewaysvc-dev.azurewebsites.net/api/users/${u_id}`, {
-      method: 'PUT', // Assuming your API supports updating via PUT
-      headers:{headers},
-      body: JSON.stringify(updatedUser),
+    fetch(`https://gatewaysvc-dev.azurewebsites.net/api/users/${formValues.id}`, {
+    method: 'PUT', 
+    headers: profilefeatureData.headers ,
+    body: JSON.stringify(updatedUser),
     })
-      .then((response) => response.json())
-      .then((updatedUserData) => {
-        console.log('User information updated successfully:', updatedUserData);
-        // Optionally update the state or perform any other actions
+    .then((response) => response.json() )
+    .then((updatedUserData) => {
+      setshowSucsses(true)
+      alert("Profile Successfully Updated !")
+      console.log('User information updated successfully:', updatedUserData);
+    // Optionally update the state or perform any other actions
       })
       .catch((error) => console.error('Error updating user data:', error));
   };
@@ -344,14 +306,14 @@ function AccountComponent({ onSaveClick }) {
               </div>
             </div>
           </div>
-          <div className="rounded-radius-md bg-component-colors-components-buttons-primary-button-primary-bg shadow-[0px_1px_2px_rgba(16,_24,_40,_0.05)] overflow-hidden flex flex-row items-center justify-center py-2.5 px-3.5 gap-[0px_4px] border-[1px] border-solid border-component-colors-components-buttons-primary-button-primary-bg">
+          <button disabled={disabled} className={`${disabled ? "text-bg-dark cursor-not-allowed " : "text-white cursor-pointer" } rounded-radius-md bg-component-colors-components-buttons-primary-button-primary-bg shadow-[0px_1px_2px_rgba(16,_24,_40,_0.05)] overflow-hidden flex flex-row items-center justify-center py-2.5 px-3.5 gap-[0px_4px] border-[1px] border-solid border-component-colors-components-buttons-primary-button-primary-bg`}>
             <img
               className="w-5 relative h-5 overflow-hidden shrink-0 hidden"
               alt=""
               src="/checkcircle.svg"
             />
             <div className="flex flex-row items-center justify-center py-0 px-spacing-xxs">
-              <div onClick={() => onUpdate_SaveClick()} className="cursor-pointer relative leading-[20px] font-semibold">
+              <div onClick={() => onUpdate_SaveClick()} className=" relative leading-[20px] font-semibold">
                 Save
               </div>
             </div>
@@ -360,7 +322,7 @@ function AccountComponent({ onSaveClick }) {
               alt=""
               src="/placeholder2.svg"
             />
-          </div>
+          </button>
         </div>
         {/* <div className="self-stretch relative box-border h-px border-t-[1px] border-solid border-colors-border-border-secondary" /> */}
         <div className="self-stretch flex flex-col items-start justify-start gap-[16px_0px]">
@@ -590,8 +552,19 @@ function AccountComponent({ onSaveClick }) {
           </div>
         </div>
       </div>
+      <SuccessPopUp showSucsses={showSucsses} setshowSucsses={setshowSucsses} />
     </div>
   )
 }
 
-export default AccountComponent
+// export default AccountComponent
+
+
+const mapStateToProps = (state) => ( console.log("state------",state),{
+	profilefeatureData: state.homeFeatureReducer.profilefeatureData,
+
+});
+
+export default connect(mapStateToProps, {
+  getProfileReportsAction
+})(AccountComponent);
