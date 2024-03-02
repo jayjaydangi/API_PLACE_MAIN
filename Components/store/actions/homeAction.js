@@ -48,7 +48,7 @@ export const getFeatureReportsAction = () => async (dispatch) => {
         if (resp.status === 200) {
             const response = resp?.data;
             console.log('response', response);
-  
+            localStorage.getItem("userPnl_Info", response)
             dispatch(getProfileReport({response :response, headers:API_BOOK.PROFILE_API.headers}));
         }
     } catch (error) {

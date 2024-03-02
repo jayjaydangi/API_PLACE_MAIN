@@ -1,6 +1,6 @@
 'use client'
 import Link from 'next/link'
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import useWindow from './hasWindow';
 import Image from 'next/image';
 // import { UserAuth } from '../Firebase/AuthContext'
@@ -21,17 +21,39 @@ export default function CommonHeader() {
             setuserInfo(JSON.parse(localStorage.getItem("userInfo")))
         }
     }, [])
-    const [showPopup, setshowPopup] = useState(false)
-    const profileClick = () => {
-        setshowPopup(!showPopup);
+    const [showPopup, setshowPopup] = useState(false);
+
+  const handleProfileHover = () => {
+    setshowPopup(true);
+  };
+
+  const handleProfileMouseLeave = () => {
+    setshowPopup(false);
+  };
+
+  const handleClickOutside = (event) => {
+    if (!event.target.closest('.popup-content')) {
+      setshowPopup(false);
     }
-    
+  };
+
+  useEffect(() => {
+    document.addEventListener('click', handleClickOutside);
+    return () => {
+      document.removeEventListener('click', handleClickOutside);
+    };
+  }, [showPopup]);
+
+
+
+
     const router = useRouter();
     const OnLogOutClick = async () => {
         try {
             await signOut(auth);
             localStorage.removeItem('userInfo');
             localStorage.removeItem('userPnl_Info');
+            localStorage.removeItem("profile_Image")
             router.push('/log_in');
             alert('Logged out successfully!');
         } catch (error) {
@@ -123,17 +145,29 @@ export default function CommonHeader() {
                         </div>
                         {userInfo?.stsTokenManager?.accessToken || userInfo?.user?.stsTokenManager?.accessToken ?
                             <>
-                                <div onClick={() => profileClick()} style={{ display: 'block', alignItems: 'center', textAlign: 'center', marginLeft: '20px' }}>
-                                    {/* <Link href='/account'> */}
-                                        <div className="w-11 relative rounded-radius-full h-11 bg-[url('/avatar15@3x.png')] bg-cover bg-no-repeat bg-[top]">
-                                            <div className="absolute h-full w-full top-[0px] right-[0px] bottom-[0px] left-[0px] rounded-radius-full box-border overflow-hidden border-[0.7px] border-solid border-component-colors-components-avatars-avatar-contrast-border" />
+                                <div className="popup-container">
+                                    <div
+                                        onMouseEnter={handleProfileHover}
+                                       
+                                        className="w-11 relative rounded-radius-full h-11 bg-[url('/avatar15@3x.png')] bg-cover bg-no-repeat bg-[top]"
+                                    >
+                                        <div className="absolute h-full w-full top-[0px] right-[0px] bottom-[0px] left-[0px] rounded-radius-full box-border overflow-hidden border-[0.7px] border-solid border-component-colors-components-avatars-avatar-contrast-border" />
+                                    </div>
+                                    {showPopup && (
+                                        <div className="popup-content"  onMouseLeave={handleProfileMouseLeave}>
+                                            <CommonSideBar OnLogOutClick={OnLogOutClick} />
                                         </div>
-                                    {/* </Link> */}
-                                    {/* <p> {userInfo?.email} </p> */}
-                                    {/* <a href="#" title="Header" data-toggle="popover" data-placement="bottom" data-content="Content">Bottom</a> */}
+                                    )}
+                                </div>
+                                {/* <Link href='/account'> */}
+                                {/* <div ref={popupRef} onClick={(e) => profileClick(e)} style={{ display: 'block', alignItems: 'center', textAlign: 'center', marginLeft: '20px', cursor: "pointer" }}>
+                                    <div className="w-11 relative rounded-radius-full h-11 bg-[url('/avatar15@3x.png')] bg-cover bg-no-repeat bg-[top]">
+                                        <div className="absolute h-full w-full top-[0px] right-[0px] bottom-[0px] left-[0px] rounded-radius-full box-border overflow-hidden border-[0.7px] border-solid border-component-colors-components-avatars-avatar-contrast-border" />
+                                    </div>
                                 </div>
                                 {/* <h5 onClick={()=>OnLogOutClick()} className='cursor-pointer' >LogOut</h5> */}
-                               {showPopup  && <CommonSideBar OnLogOutClick={OnLogOutClick} />}
+                                {/* {showPopup && (<div  className='popup-content' > <CommonSideBar OnLogOutClick={OnLogOutClick} /> </div>)} */}
+                                {/* {showPopup && (<div ref={popupRef}> <CommonSideBar OnLogOutClick={OnLogOutClick} popupRef={popupRef} /> </div>)} */}
                             </>
                             :
                             <div className="flex flex-row items-center justify-start gap-[0px_12px] text-component-colors-components-buttons-secondary-button-secondary-fg">

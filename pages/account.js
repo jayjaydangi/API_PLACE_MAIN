@@ -20,9 +20,10 @@ const Account = ({getProfileReportsAction, profilefeatureData}) => {
   const hasWindow = useWindow();
 
   useEffect(() => {
-    if (hasWindow) {
+    // if (hasWindow) {
+      // console.log('profilefeatureData', profilefeatureData)
       getProfileReportsAction();
-    }
+    // }
   }, [getProfileReportsAction]);
 
 

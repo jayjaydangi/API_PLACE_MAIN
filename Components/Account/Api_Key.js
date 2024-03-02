@@ -48,7 +48,16 @@ function Api_Key() {
         }
 
     }
-  
+    // const [copySuccess, setCopySuccess] = useState('');
+    // const textAreaRef = useRef(null);
+    // function copyToClipboard(e) {
+    //     textAreaRef.current.select();
+    //     document.execCommand('copy');
+    //     // This is just personal preference.
+    //     // I prefer to not show the whole text area selected.
+    //     e.target.focus();
+    //     setCopySuccess('Copied!');
+    //   };
     return (
         <>
             <div className="flex-1 flex flex-col items-start justify-start gap-[24px_0px] text-5xl text-colors-text-text-primary-900">

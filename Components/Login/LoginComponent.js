@@ -158,20 +158,47 @@ const LogInComponent = () => {
                                         </div>
                                         <div className="flex flex-row items-center justify-start gap-[0px_8px] text-center text-11xl text-component-colors-components-buttons-primary-button-primary-bg">
                                             <input style={{ fontSize: '24px', textAlign: 'center' }} maxLength="1" type="text" className=" leading-[38px] font-medium  w-16 rounded-radius-md bg-colors-background-bg-primary shadow-[0px_1px_2px_rgba(16,_24,_40,_0.05)] box-border overflow-hidden shrink-0 flex flex-col items-center justify-center py-spacing-xxs px-spacing-md min-h-[64px] border-[2px] border-solid border-component-colors-components-buttons-primary-button-primary-bg" />
-                                          
+                                            {/* <div className="w-16 rounded-radius-md bg-colors-background-bg-primary shadow-[0px_1px_2px_rgba(16,_24,_40,_0.05)] box-border overflow-hidden shrink-0 flex flex-col items-center justify-center py-spacing-xxs px-spacing-md min-h-[64px] border-[2px] border-solid border-component-colors-components-buttons-primary-button-primary-bg">
+                       <div className="self-stretch relative leading-[38px] font-medium">
+                         3
+                       </div>
+                     </div> */}
                                             <input style={{ fontSize: '24px', textAlign: 'center' }} maxLength="1" type="text" className="w-16 rounded-radius-md bg-colors-background-bg-primary shadow-[0px_1px_2px_rgba(16,_24,_40,_0.05)] box-border overflow-hidden shrink-0 flex flex-col items-center justify-center py-spacing-xxs px-spacing-md min-h-[64px] border-[2px] border-solid border-component-colors-components-buttons-primary-button-primary-bg" />
-                                           
+                                            {/* <div className="w-16 rounded-radius-md bg-colors-background-bg-primary shadow-[0px_1px_2px_rgba(16,_24,_40,_0.05)] box-border overflow-hidden shrink-0 flex flex-col items-center justify-center py-spacing-xxs px-spacing-md min-h-[64px] border-[2px] border-solid border-component-colors-components-buttons-primary-button-primary-bg">
+                       <div className="self-stretch relative leading-[38px] font-medium">
+                         5
+                       </div>
+                     </div> */}
                                             <input style={{ fontSize: '24px', textAlign: 'center' }} maxLength="1" type="text" className="w-16 rounded-radius-md bg-colors-background-bg-primary shadow-[0px_1px_2px_rgba(16,_24,_40,_0.05)] box-border overflow-hidden shrink-0 flex flex-col items-center justify-center py-spacing-xxs px-spacing-md min-h-[64px] border-[2px] border-solid border-component-colors-components-buttons-primary-button-primary-bg" />
-                                           
+                                            {/* <div className="w-16 rounded-radius-md bg-colors-background-bg-primary shadow-[0px_1px_2px_rgba(16,_24,_40,_0.05)] box-border overflow-hidden shrink-0 flex flex-col items-center justify-center py-spacing-xxs px-spacing-md min-h-[64px] border-[2px] border-solid border-component-colors-components-buttons-primary-button-primary-bg">
+                       <div className="self-stretch relative leading-[38px] font-medium">
+                         1
+                       </div>
+                     </div> */}
                                             <div className="w-7 relative text-41xl tracking-[-0.02em] leading-[72px] font-medium text-component-colors-components-buttons-secondary-button-secondary-border flex items-center justify-center h-16 shrink-0">
                                                 -
                                             </div>
                                             <input style={{ fontSize: '24px', textAlign: 'center' }} maxLength="1" type="text" className="w-16 rounded-radius-md bg-colors-background-bg-primary shadow-[0px_1px_2px_rgba(16,_24,_40,_0.05)] box-border overflow-hidden shrink-0 flex flex-col items-center justify-center py-spacing-xxs px-spacing-md min-h-[64px] border-[2px] border-solid border-component-colors-components-buttons-primary-button-primary-bg" />
-                                           
+                                            {/* <input style={{fontSize:'24px', textAlign:'center'}} maxLength="1" type="text" className="w-16 rounded-radius-md bg-colors-background-bg-primary shadow-[0px_1px_2px_rgba(16,_24,_40,_0.05),_0px_0px_0px_4px_rgba(158,_119,_237,_0.24)] box-border overflow-hidden shrink-0 flex flex-col items-center justify-center py-spacing-xxs px-spacing-md min-h-[64px] border-[2px] border-solid border-component-colors-components-buttons-primary-button-primary-bg"/> */}
+                                            {/* <div className="w-16 rounded-radius-md bg-colors-background-bg-primary shadow-[0px_1px_2px_rgba(16,_24,_40,_0.05),_0px_0px_0px_4px_rgba(158,_119,_237,_0.24)] box-border overflow-hidden shrink-0 flex flex-col items-center justify-center py-spacing-xxs px-spacing-md min-h-[64px] border-[2px] border-solid border-component-colors-components-buttons-primary-button-primary-bg">
+                       <div className="self-stretch relative leading-[38px] font-medium">
+                         8
+                       </div>
+                     </div> */}
                                             <input style={{ fontSize: '24px', textAlign: 'center' }} maxLength="1" type="text" className="w-16 rounded-radius-md bg-colors-background-bg-primary shadow-[0px_1px_2px_rgba(16,_24,_40,_0.05)] box-border overflow-hidden shrink-0 flex flex-col items-center justify-center py-spacing-xxs px-spacing-md min-h-[64px] border-[2px] border-solid border-component-colors-components-buttons-primary-button-primary-bg" />
-                                           
+                                            {/* <input style={{fontSize:'24px', textAlign:'center'}} maxLength="1" type="text" className="w-16 rounded-radius-md bg-colors-background-bg-primary shadow-[0px_1px_2px_rgba(16,_24,_40,_0.05)] box-border overflow-hidden shrink-0 flex flex-col items-center justify-center py-spacing-xxs px-spacing-md min-h-[64px] text-component-colors-components-buttons-secondary-button-secondary-border border-[1px] border-solid border-component-colors-components-buttons-secondary-button-secondary-border"/> */}
+                                            {/* <div className="w-16 rounded-radius-md bg-colors-background-bg-primary shadow-[0px_1px_2px_rgba(16,_24,_40,_0.05)] box-border overflow-hidden shrink-0 flex flex-col items-center justify-center py-spacing-xxs px-spacing-md min-h-[64px] text-component-colors-components-buttons-secondary-button-secondary-border border-[1px] border-solid border-component-colors-components-buttons-secondary-button-secondary-border">
+                       <div className="self-stretch relative leading-[38px] font-medium">
+                         0
+                       </div>
+                     </div> */}
                                             <input style={{ fontSize: '24px', textAlign: 'center' }} maxLength="1" type="text" className="w-16 rounded-radius-md bg-colors-background-bg-primary shadow-[0px_1px_2px_rgba(16,_24,_40,_0.05)] box-border overflow-hidden shrink-0 flex flex-col items-center justify-center py-spacing-xxs px-spacing-md min-h-[64px] border-[2px] border-solid border-component-colors-components-buttons-primary-button-primary-bg" />
-                                            
+                                            {/* <input style={{fontSize:'24px', textAlign:'center'}} maxLength="1" type="text"  className="w-16 rounded-radius-md bg-colors-background-bg-primary shadow-[0px_1px_2px_rgba(16,_24,_40,_0.05)] box-border overflow-hidden shrink-0 flex flex-col items-center justify-center py-spacing-xxs px-spacing-md min-h-[64px] text-component-colors-components-buttons-secondary-button-secondary-border border-[1px] border-solid border-component-colors-components-buttons-secondary-button-secondary-border"/> */}
+                                            {/* <div className="w-16 rounded-radius-md bg-colors-background-bg-primary shadow-[0px_1px_2px_rgba(16,_24,_40,_0.05)] box-border overflow-hidden shrink-0 flex flex-col items-center justify-center py-spacing-xxs px-spacing-md min-h-[64px] text-component-colors-components-buttons-secondary-button-secondary-border border-[1px] border-solid border-component-colors-components-buttons-secondary-button-secondary-border">
+                       <div className="self-stretch relative leading-[38px] font-medium">
+                         0
+                       </div>
+                     </div> */}
                                         </div>
                                     </div>
                                     <div className="w-[460px] relative leading-[20px] text-component-colors-components-buttons-tertiary-button-tertiary-fg hidden">
@@ -785,7 +812,18 @@ const LogInComponent = () => {
                                                         Email
                                                     </div>
                                                     <input required type="email" value={Email} onChange={(e) => setEmail(e.target.value)} placeholder="Enter your email" className="self-stretch rounded-radius-md bg-colors-background-bg-primary shadow-[0px_1px_2px_rgba(16,_24,_40,_0.05)] flex flex-row items-center justify-start py-2.5 px-3.5 gap-[0px_8px] text-base text-colors-text-text-quarterary-500 border-[1px] border-solid border-component-colors-components-buttons-secondary-button-secondary-border" />
-                                                    
+                                                    {/* <div className="self-stretch rounded-radius-md bg-colors-background-bg-primary shadow-[0px_1px_2px_rgba(16,_24,_40,_0.05)] flex flex-row items-center justify-start py-2.5 px-3.5 gap-[0px_8px] text-base text-colors-text-text-quarterary-500 border-[1px] border-solid border-component-colors-components-buttons-secondary-button-secondary-border">
+                                                <div className="flex-1 flex flex-row items-center justify-start">
+                                                    <div className="flex-1 relative leading-[24px] overflow-hidden text-ellipsis whitespace-nowrap">
+                                                        Enter your email
+                                                    </div>
+                                                </div>
+                                                <img
+                                                    className="w-4 relative h-4 hidden"
+                                                    alt=""
+                                                    src="/help-icon.svg"
+                                                />
+                                            </div> */}
                                                 </div>
                                                 <div className="w-80 relative leading-[20px] text-component-colors-components-buttons-tertiary-button-tertiary-fg hidden">
                                                     This is a hint text to help user.
@@ -806,7 +844,18 @@ const LogInComponent = () => {
                                                             src={showPass ? "/eyeoff.svg" : "/eye.svg"}
                                                         />
                                                     </div>
-                                                   
+                                                    {/* <div className="self-stretch rounded-radius-md bg-colors-background-bg-primary shadow-[0px_1px_2px_rgba(16,_24,_40,_0.05)] flex flex-row items-center justify-start py-2.5 px-3.5 gap-[0px_8px] text-base text-colors-text-text-primary-900 border-[1px] border-solid border-component-colors-components-buttons-secondary-button-secondary-border">
+                                                <div className="flex-1 flex flex-row items-center justify-start">
+                                                    <div className="flex-1 relative leading-[24px] overflow-hidden text-ellipsis whitespace-nowrap">
+                                                        ****************
+                                                    </div>
+                                                </div>
+                                                <img
+                                                    className="w-5 relative h-5 overflow-hidden shrink-0"
+                                                    alt=""
+                                                    src="/eye.svg"
+                                                />
+                                            </div> */}
                                                 </div>
                                                 <div className="w-80 relative leading-[20px] text-component-colors-components-buttons-tertiary-button-tertiary-fg hidden">
                                                     This is a hint text to help user.
@@ -815,10 +864,9 @@ const LogInComponent = () => {
                                         </div>
                                         <div className="self-stretch flex flex-row items-center justify-start">
                                             <div className="flex-1 flex flex-row items-start justify-start gap-[0px_8px]">
-                                                <div className="flex flex-row items-center justify-center pt-spacing-xxs px-0 pb-0">
-                                                    
-                                                    <input  type="checkbox" className=" cursor-pointer w-4 relative rounded-spacing-xs box-border h-4 overflow-hidden shrink-0 border-[1px] border-solid border-component-colors-components-buttons-secondary-button-secondary-border" name="" id="" value="checkedValue" />
-                                                  
+                                                <div className="flex flex-row items-center justify-center pt-spacing-xxs px-0 pb-0">                                        
+                                                    <input type="checkbox" className=" cursor-pointer w-4 relative rounded-spacing-xs box-border h-4 overflow-hidden shrink-0 border-[1px] border-solid border-component-colors-components-buttons-secondary-button-secondary-border" name="" id="" value="checkedValue" />
+                                                    {/* <div className="w-4 relative rounded-spacing-xs box-border h-4 overflow-hidden shrink-0 border-[1px] border-solid border-component-colors-components-buttons-secondary-button-secondary-border" /> */}
                                                 </div>
                                                 <div className="flex-1 flex flex-col items-start justify-start">
                                                     <div className="self-stretch relative leading-[20px] font-medium">

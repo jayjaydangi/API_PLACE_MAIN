@@ -1,12 +1,14 @@
 import Link from 'next/link'
 import React, { useEffect, useRef, useState } from 'react'
 // import { getProfileReportsAction } from "../../Components/store/actions/homeAction"
+// import { connect } from "react-redux";
+// import { Avatar } from '@mui/material';
 import axios from 'axios';
 import useWindow from '../Commons/hasWindow';
 
 function AccountComponent({ profilefeatureData }) {
   console.log('profilefeatureData', profilefeatureData);
-  console.log('env', process.env.NEXT_APP_HOST_API_URL);
+  // console.log('env', process.env.NEXT_APP_HOST_API_URL);
   const [formValues, setFormValues] = useState({})
   const [hasLoadJs, sethasLoadJs] = useState(false)
   let profile_ImageData = ''
@@ -14,16 +16,20 @@ function AccountComponent({ profilefeatureData }) {
   useEffect(() => {
     if (hasWindow) {
       setPreviewImage(JSON.parse(localStorage.getItem("profile_Image"))?.url);
+      console.log( "user info in localstorage", localStorage.getItem("userPnl_Info"));
+
       // console.log('======  profile_ImageData', profile_ImageData)
     }
     setFormValues({ ...profilefeatureData?.response });
     sethasLoadJs(true)
   }, [])
   const fileref = useRef(null);
- 
+  // console.log('profilefeatureData?.headers', profile_ImageData.url);
+  // console.log('profile_ImageData', profile_ImageData)
   const hasWindow = useWindow();
 
   console.log('profilefeatureData?.headers', profilefeatureData?.headers);
+  // console.log('previewImage || profilefeatureData?.response?.profilePictureUrl', previewImage , profilefeatureData?.response?.profilePictureUrl);
 
   const handleInputChange = (fieldName, value) => {
     setFormValues({ ...formValues, [fieldName]: value });
@@ -62,14 +68,14 @@ function AccountComponent({ profilefeatureData }) {
 
   const profile_upload = async (formData) => {
     console.log('formData', formData)
-    // const updatedUser = {
-    //   profilePictureUrl:formValues.profilePictureUrl
-    // };
+    const updatedUser = {
+      "profilePictureUrl": formData
+    };
     if (profilefeatureData?.headers !== undefined) {
       await axios(`https://gatewaysvc-dev.azurewebsites.net/api/users/${formValues.id}`, {
         method: 'PUT',
         headers: profilefeatureData?.headers,
-        body: formData,
+        body: updatedUser,
       })
         .then((response) => response.json())
         .then((updatedUserData) => {
@@ -90,11 +96,11 @@ function AccountComponent({ profilefeatureData }) {
         setPreviewImage(reader.result);
         localStorage.setItem("profile_Image", JSON.stringify({ url: reader.result }))
         // Upload the file when selected
-        const formData = new FormData();
-        formData.append('file', file);
-        console.log('formData', formData);
+        // const formData = new FormData();
+        // formData.append('file', file);
+        // console.log('formData', formData);
         // uploadPostProfile(formData);
-        profile_upload(formData)
+        profile_upload(reader.result)
       };
       reader.readAsDataURL(file);
     } else {

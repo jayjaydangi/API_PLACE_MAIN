@@ -1,7 +1,7 @@
 import Link from 'next/link';
 import React, { useEffect, useState } from 'react';
 
-function CommonSideBar({ OnLogOutClick }) {
+function CommonSideBar({ OnLogOutClick,  }) {
   const [activeMenuItem, setActiveMenuItem] = useState('Account'); // Initial active item
   // const [activeComponent, setActiveComponent] = useState(null); // State to store the active component
 
@@ -30,7 +30,9 @@ function CommonSideBar({ OnLogOutClick }) {
       fontSize: '12px',
       width: '200px',
       borderRadius: "10px"
-    }}>
+    }} 
+    // ref={popupRef}
+    >
       <div className="w-[200px] overflow-hidden shrink-0 flex flex-col items-start justify-start py-spacing-xs px-0 box-border">
         {menuItem?.map(
           (menuItem, index) => (

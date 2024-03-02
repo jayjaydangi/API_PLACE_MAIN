@@ -5,32 +5,44 @@ import { GoogleAuthProvider, createUserWithEmailAndPassword, signInWithEmailAndP
 // import { addDoc, collection } from 'firebase/firestore';
 import { auth } from "../Firebase/Firebase";
 import Router, { useRouter } from "next/router";
-// import { getFirestore } from "firebase/firestore";
-// import { Alert } from "flowbite-react";
 import axios from "axios";
 
-// import { auth } from '../Components/Firebase/Firebase';
 const SignUpComponent = () => {
   const router = useRouter();
   const fNameRef = useRef();
   const lNameRef = useRef();
   const emailRef = useRef();
-  const passwordRef = useRef();
-  const con_passwordReF = useRef();
+  const [password, setpassword] = useState('')
+  const [con_password, setcon_password] = useState('')
   const organisationRef = useRef();
   const sectorRef = useRef();
   const [UserInfo, setUserInfo] = useState(null)
-  const [userPersonalDetails, setuserPersonalDetails] = useState(null)
   const [showPass, setshowPass] = useState(false)
   const [showC_Pass, setshowC_Pass] = useState(false)
   const [isSubmitting, setIsSubmitting] = useState(false);
-  // const dbFireStore = getFirestore();
-  // console.log('dbFireStore', dbFireStore)
-  console.log('setuserPersonalDetails', userPersonalDetails)
-  const password = passwordRef?.current?.value;
-  const con_password = con_passwordReF?.current?.value;
 
-  
+  const fileref = useRef(null);
+  const [previewImage, setPreviewImage] = useState(null);
+  const handleFileChange = (event) => {
+    const file = event.target.files[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setPreviewImage(reader.result);
+        localStorage.setItem("profile_Image", JSON.stringify({ url: reader.result }))
+        // Upload the file when selected
+        // const formData = new FormData();
+        // formData.append('file', file);
+        // console.log('formData', formData);
+        // // uploadPostProfile(formData);
+        // profile_upload(formData)
+      };
+      reader.readAsDataURL(file);
+    } else {
+      setPreviewImage(null);
+    }
+    // handleRemoveProfileClose();
+  };
   const onSignUpSubmit = async (e) => {
     e.preventDefault();
     const fName = fNameRef.current.value;
@@ -51,7 +63,7 @@ const SignUpComponent = () => {
           "username": email,
           "email": email,
           "organizationName": organisation,
-          "profilePictureUrl": "string",
+          "profilePictureUrl": previewImage,
           "websiteLink": "string",
           "phoneNumber": "string",
           "state": sector,
@@ -121,11 +133,11 @@ const SignUpComponent = () => {
         "username": user.displayName,
         "email": user.email,
         "organizationName": "",
-        "profilePictureUrl": "string",
+        "profilePictureUrl": "",
         "websiteLink": "string",
         "phoneNumber": "string",
         "state": "",
-        "loginProvider":user.providerId,
+        "loginProvider": user.providerId,
       };
       try {
         const response = await axios.post("https://gatewaysvc-dev.azurewebsites.net/api/Users", { headerD }, bodyParams);
@@ -133,10 +145,28 @@ const SignUpComponent = () => {
         localStorage.setItem('userPnl_Info', JSON.stringify(response.data));
         alert('Signup successful!');
       } catch (error) {
-        console.error("Error in fetching user api signInWithPopup " , error)
+        console.error("Error in fetching user api signInWithPopup ", error)
       }
 
-     
+      // await fetch(`https://gatewaysvc-dev.azurewebsites.net/api/users/${user.uid}`, { headerD })
+      //   .then((response) => response.json())
+      //   .then((data) => {
+      //     setUserData(data); // Save user data to state
+      //     localStorage.setItem('userPnl_Info', JSON.stringify({
+      //       data
+      //     }))
+      //   })
+      //   .catch((error) => console.error('Error fetching user data:', error));
+      // setFormValues({
+      //   firstName: data?.firstName || '',
+      //   lastName: data?.lastName || '',
+      //   email: data?.email || '',
+      //   username: data?.username || '',
+      //   organization: data?.organizationName || '',
+      //   category: data?.category || 'Software',
+      //   description: data?.description || '',
+      //   profilePictureUrl: data?.profilePictureUrl || '',
+      // });
       Router.push("/");
       setIsSubmitting(false);
     } catch (error) {
@@ -774,7 +804,18 @@ const SignUpComponent = () => {
                             First Name*
                           </div>
                           <input required ref={fNameRef} placeholder="Enter your first name" className="self-stretch rounded-radius-md bg-colors-background-bg-primary shadow-[0px_1px_2px_rgba(16,_24,_40,_0.05)] flex flex-row items-center justify-start py-2.5 px-3.5 gap-[0px_8px] text-base text-colors-text-text-quarterary-500 border-[1px] border-solid border-component-colors-components-buttons-secondary-button-secondary-border" />
-                          
+                          {/* <div className="self-stretch rounded-radius-md bg-colors-background-bg-primary shadow-[0px_1px_2px_rgba(16,_24,_40,_0.05)] flex flex-row items-center justify-start py-2.5 px-3.5 gap-[0px_8px] text-base text-colors-text-text-quarterary-500 border-[1px] border-solid border-component-colors-components-buttons-secondary-button-secondary-border">
+                            <div className="flex-1 flex flex-row items-center justify-start">
+                              <div className="flex-1 relative leading-[24px] overflow-hidden text-ellipsis whitespace-nowrap">
+                                Enter your first name
+                              </div>
+                            </div>
+                            <img
+                              className="w-4 relative h-4 hidden"
+                              alt=""
+                              src="/help-icon.svg"
+                            />
+                          </div> */}
                         </div>
                         <div className="w-80 relative leading-[20px] text-component-colors-components-buttons-tertiary-button-tertiary-fg hidden">
                           This is a hint text to help user.
@@ -786,7 +827,18 @@ const SignUpComponent = () => {
                             Last Name*
                           </div>
                           <input required ref={lNameRef} placeholder="Enter your last name" className="self-stretch rounded-radius-md bg-colors-background-bg-primary shadow-[0px_1px_2px_rgba(16,_24,_40,_0.05)] flex flex-row items-center justify-start py-2.5 px-3.5 gap-[0px_8px] text-base text-colors-text-text-quarterary-500 border-[1px] border-solid border-component-colors-components-buttons-secondary-button-secondary-border" />
-                         
+                          {/* <div className="self-stretch rounded-radius-md bg-colors-background-bg-primary shadow-[0px_1px_2px_rgba(16,_24,_40,_0.05)] flex flex-row items-center justify-start py-2.5 px-3.5 gap-[0px_8px] text-base text-colors-text-text-quarterary-500 border-[1px] border-solid border-component-colors-components-buttons-secondary-button-secondary-border">
+                            <div className="flex-1 flex flex-row items-center justify-start">
+                              <div className="flex-1 relative leading-[24px] overflow-hidden text-ellipsis whitespace-nowrap">
+                                Enter your last name
+                              </div>
+                            </div>
+                            <img
+                              className="w-4 relative h-4 hidden"
+                              alt=""
+                              src="/help-icon.svg"
+                            />
+                          </div> */}
                         </div>
                         <div className="w-80 relative leading-[20px] text-component-colors-components-buttons-tertiary-button-tertiary-fg hidden">
                           This is a hint text to help user.
@@ -798,8 +850,19 @@ const SignUpComponent = () => {
                         <div className="relative leading-[20px] font-medium">
                           Email*
                         </div>
-                        <input required ref={emailRef} placeholder="Enter your email" className="self-stretch rounded-radius-md bg-colors-background-bg-primary shadow-[0px_1px_2px_rgba(16,_24,_40,_0.05)] flex flex-row items-center justify-start py-2.5 px-3.5 gap-[0px_8px] text-base text-colors-text-text-quarterary-500 border-[1px] border-solid border-component-colors-components-buttons-secondary-button-secondary-border" />
-                        
+                        <input required ref={emailRef} placeholder="Enter your email" type="email" className="self-stretch rounded-radius-md bg-colors-background-bg-primary shadow-[0px_1px_2px_rgba(16,_24,_40,_0.05)] flex flex-row items-center justify-start py-2.5 px-3.5 gap-[0px_8px] text-base text-colors-text-text-quarterary-500 border-[1px] border-solid border-component-colors-components-buttons-secondary-button-secondary-border" />
+                        {/* <div className="self-stretch rounded-radius-md bg-colors-background-bg-primary shadow-[0px_1px_2px_rgba(16,_24,_40,_0.05)] flex flex-row items-center justify-start py-2.5 px-3.5 gap-[0px_8px] text-base text-colors-text-text-quarterary-500 border-[1px] border-solid border-component-colors-components-buttons-secondary-button-secondary-border">
+                          <div className="flex-1 flex flex-row items-center justify-start">
+                            <div className="flex-1 relative leading-[24px] overflow-hidden text-ellipsis whitespace-nowrap">
+                              Enter your email
+                            </div>
+                          </div>
+                          <img
+                            className="w-4 relative h-4 hidden"
+                            alt=""
+                            src="/help-icon.svg"
+                          />
+                        </div> */}
                       </div>
                       <div className="w-80 relative leading-[20px] text-component-colors-components-buttons-tertiary-button-tertiary-fg hidden">
                         This is a hint text to help user.
@@ -812,7 +875,18 @@ const SignUpComponent = () => {
                             Organisation
                           </div>
                           <input required ref={organisationRef} placeholder="Enter your organisation" className="self-stretch rounded-radius-md bg-colors-background-bg-primary shadow-[0px_1px_2px_rgba(16,_24,_40,_0.05)] flex flex-row items-center justify-start py-2.5 px-3.5 gap-[0px_8px] text-base text-colors-text-text-quarterary-500 border-[1px] border-solid border-component-colors-components-buttons-secondary-button-secondary-border" />
-                         
+                          {/* <div className="self-stretch rounded-radius-md bg-colors-background-bg-primary shadow-[0px_1px_2px_rgba(16,_24,_40,_0.05)] flex flex-row items-center justify-start py-2.5 px-3.5 gap-[0px_8px] text-base text-colors-text-text-quarterary-500 border-[1px] border-solid border-component-colors-components-buttons-secondary-button-secondary-border">
+                            <div className="flex-1 flex flex-row items-center justify-start">
+                              <div className="flex-1 relative leading-[24px] overflow-hidden text-ellipsis whitespace-nowrap">
+                                Enter your organisation
+                              </div>
+                            </div>
+                            <img
+                              className="w-4 relative h-4 hidden"
+                              alt=""
+                              src="/help-icon.svg"
+                            />
+                          </div> */}
                         </div>
                         <div className="w-80 relative leading-[20px] text-component-colors-components-buttons-tertiary-button-tertiary-fg hidden">
                           This is a hint text to help user.
@@ -824,7 +898,18 @@ const SignUpComponent = () => {
                             Sector
                           </div>
                           <input required ref={sectorRef} placeholder="Select team member" className="self-stretch rounded-radius-md bg-colors-background-bg-primary shadow-[0px_1px_2px_rgba(16,_24,_40,_0.05)] overflow-hidden flex flex-row items-center justify-start py-2.5 px-3.5 gap-[0px_8px] text-base text-colors-text-text-quarterary-500 border-[1px] border-solid border-component-colors-components-buttons-secondary-button-secondary-border" />
-                        
+                          {/* <div className="self-stretch rounded-radius-md bg-colors-background-bg-primary shadow-[0px_1px_2px_rgba(16,_24,_40,_0.05)] overflow-hidden flex flex-row items-center justify-start py-2.5 px-3.5 gap-[0px_8px] text-base text-colors-text-text-quarterary-500 border-[1px] border-solid border-component-colors-components-buttons-secondary-button-secondary-border">
+                            <div className="flex-1 flex flex-row items-center justify-start">
+                              <div className="flex-1 relative leading-[24px] overflow-hidden text-ellipsis whitespace-nowrap">
+                                Select team member
+                              </div>
+                            </div>
+                            <img
+                              className="w-5 relative h-5 overflow-hidden shrink-0"
+                              alt=""
+                              src="/chevrondown.svg"
+                            />
+                          </div> */}
                         </div>
                         <div className="w-80 relative leading-[20px] text-component-colors-components-buttons-tertiary-button-tertiary-fg hidden">
                           This is a hint text to help user.
@@ -838,8 +923,19 @@ const SignUpComponent = () => {
                             New Password
                           </div>
                           <div>
-                            <input required ref={passwordRef} placeholder="Enter Password" type={showPass ? "text" : "password"} className="self-stretch rounded-radius-md bg-colors-background-bg-primary shadow-[0px_1px_2px_rgba(16,_24,_40,_0.05)] flex flex-row items-center justify-start py-2.5 px-3.5 gap-[0px_8px] text-base text-colors-text-text-primary-900 border-[1px] border-solid border-component-colors-components-buttons-secondary-button-secondary-border" />
-                           
+                            <input required value={password} onChange={(e) => setpassword(e.target.value)} placeholder="Enter Password" type={showPass ? "text" : "password"} className="self-stretch rounded-radius-md bg-colors-background-bg-primary shadow-[0px_1px_2px_rgba(16,_24,_40,_0.05)] flex flex-row items-center justify-start py-2.5 px-3.5 gap-[0px_8px] text-base text-colors-text-text-primary-900 border-[1px] border-solid border-component-colors-components-buttons-secondary-button-secondary-border" />
+                            {/* <div className="self-stretch rounded-radius-md bg-colors-background-bg-primary shadow-[0px_1px_2px_rgba(16,_24,_40,_0.05)] flex flex-row items-center justify-start py-2.5 px-3.5 gap-[0px_8px] text-base text-colors-text-text-primary-900 border-[1px] border-solid border-component-colors-components-buttons-secondary-button-secondary-border">
+                            <div className="flex-1 flex flex-row items-center justify-start">
+                              <div className="flex-1 relative leading-[24px] overflow-hidden text-ellipsis whitespace-nowrap">
+                                ncsjdnsvs32932
+                              </div>
+                            </div>
+                            <img
+                              className="w-5 relative h-5 overflow-hidden shrink-0"
+                              alt=""
+                              src="/eyeoff.svg"
+                            />
+                          </div> */}
                             <div style={{ width: '50px', position: 'relative', top: '-33px', left: '195px' }}>
                               <img
                                 className="w-5 relative h-5 overflow-hidden shrink-0"
@@ -863,7 +959,7 @@ const SignUpComponent = () => {
                             Confirm New Password
                           </div>
                           <div>
-                            <input required ref={con_passwordReF} type={showC_Pass ? "text" : "password"} placeholder="Confirm Password" className="self-stretch rounded-radius-md bg-colors-background-bg-primary shadow-[0px_1px_2px_rgba(16,_24,_40,_0.05)] flex flex-row items-center justify-start py-2.5 px-3.5 gap-[0px_8px] text-base text-colors-text-text-primary-900 border-[1px] border-solid border-component-colors-components-buttons-secondary-button-secondary-border" />
+                            <input required value={con_password} onChange={(e) => setcon_password(e.target.value)} type={showC_Pass ? "text" : "password"} placeholder="Confirm Password" className="self-stretch rounded-radius-md bg-colors-background-bg-primary shadow-[0px_1px_2px_rgba(16,_24,_40,_0.05)] flex flex-row items-center justify-start py-2.5 px-3.5 gap-[0px_8px] text-base text-colors-text-text-primary-900 border-[1px] border-solid border-component-colors-components-buttons-secondary-button-secondary-border" />
                             <div style={{ width: '50px', position: 'relative', top: '-33px', left: '195px' }}>
                               <img
                                 className="w-5 relative h-5 overflow-hidden shrink-0"
@@ -876,10 +972,29 @@ const SignUpComponent = () => {
                         </div>
                       </div>
                     </div>
-                        <div className={`w-80 relative leading-[20px] text-bg-warning  text-component-colors-components-buttons-tertiary-button-tertiary-fg text-red-600 ${(password === con_password) && 'hidden'}`}>
-                          Confirm passwoed should be same !
-                        </div>
+                    <div className={`w-80 relative leading-[20px] text-bg-warning  text-component-colors-components-buttons-tertiary-button-tertiary-fg text-red-600 ${(password === con_password) && 'hidden'}`}>
+                      Confirm passwoed should be same !
+                    </div>
                   </div>
+
+                  <input type="file" ref={fileref}  onChange={handleFileChange} />
+                  {/* {previewImage ?(
+                    <img
+                      onClick={() => fileref.current.click()}
+                      className="absolute top-0 left-0 rounded-full w-24 h-24"
+                      src={previewImage}
+                      alt="profile_logo"
+                    />
+                  ) : (
+                    <img
+                      onClick={() => fileref.current.click()} // Assuming `fileref` is a ref to an input element
+                      className="absolute top-0 left-0 rounded-full w-24 h-24"
+                      src='/avatar-profile-photo.svg'
+                      // src={previewImage || '/edit02.svg'}
+                      alt="profile_logo"
+                    />
+                  )} */}
+
                   <div className="self-stretch flex flex-col items-start justify-start text-base text-colors-background-bg-primary">
                     <button type="submit" className="text-white cursor-pointer self-stretch rounded-radius-md bg-component-colors-components-buttons-primary-button-primary-bg shadow-[0px_1px_2px_rgba(16,_24,_40,_0.05)] overflow-hidden flex flex-row items-center justify-center py-2.5 px-spacing-xl gap-[0px_6px] border-[1px] border-solid border-component-colors-components-buttons-primary-button-primary-bg">
                       <img
@@ -941,7 +1056,66 @@ const SignUpComponent = () => {
                   />
                 </div>
               </div>
-             
+              {/* <div className="flex-1 flex flex-row items-center justify-center gap-[0px_12px]">
+                <div className="flex-1 rounded-radius-md bg-colors-background-bg-primary shadow-[0px_1px_2px_rgba(16,_24,_40,_0.05)] overflow-hidden flex flex-row items-center justify-center p-2.5 border-[1px] border-solid border-component-colors-components-buttons-secondary-button-secondary-border">
+                  <img
+                    className="w-6 relative h-6 overflow-hidden shrink-0"
+                    alt=""
+                    src="/social-icon.svg"
+                  />
+                </div>
+                <div className="w-28 rounded-radius-md bg-colors-background-bg-primary shadow-[0px_1px_2px_rgba(16,_24,_40,_0.05)] box-border overflow-hidden hidden flex-row items-center justify-center p-2.5 border-[1px] border-solid border-component-colors-components-buttons-secondary-button-secondary-border">
+                  <img
+                    className="w-6 relative h-6 overflow-hidden shrink-0"
+                    alt=""
+                    src="/social-icon.svg"
+                  />
+                </div>
+                <div className="w-28 rounded-radius-md bg-colors-background-bg-primary shadow-[0px_1px_2px_rgba(16,_24,_40,_0.05)] box-border overflow-hidden hidden flex-row items-center justify-center p-2.5 border-[1px] border-solid border-component-colors-components-buttons-secondary-button-secondary-border">
+                  <img
+                    className="w-6 relative h-6 overflow-hidden shrink-0"
+                    alt=""
+                    src="/social-icon.svg"
+                  />
+                </div>
+                <div className="w-[81px] rounded-radius-md bg-colors-background-bg-primary shadow-[0px_1px_2px_rgba(16,_24,_40,_0.05)] box-border overflow-hidden hidden flex-row items-center justify-center p-2.5 border-[1px] border-solid border-component-colors-components-buttons-secondary-button-secondary-border">
+                  <img
+                    className="w-6 relative h-6 overflow-hidden shrink-0"
+                    alt=""
+                    src="/social-icon.svg"
+                  />
+                </div>
+              </div>
+              <div className="flex-1 flex flex-row items-center justify-center gap-[0px_12px]">
+                <div className="flex-1 rounded-radius-md bg-colors-background-bg-primary shadow-[0px_1px_2px_rgba(16,_24,_40,_0.05)] overflow-hidden flex flex-row items-center justify-center p-2.5 border-[1px] border-solid border-component-colors-components-buttons-secondary-button-secondary-border">
+                  <img
+                    className="w-6 relative h-6 overflow-hidden shrink-0"
+                    alt=""
+                    src="/icomoonfreegithub.svg"
+                  />
+                </div>
+                <div className="w-28 rounded-radius-md bg-colors-background-bg-primary shadow-[0px_1px_2px_rgba(16,_24,_40,_0.05)] box-border overflow-hidden hidden flex-row items-center justify-center p-2.5 border-[1px] border-solid border-component-colors-components-buttons-secondary-button-secondary-border">
+                  <img
+                    className="w-6 relative h-6 overflow-hidden shrink-0"
+                    alt=""
+                    src="/social-icon.svg"
+                  />
+                </div>
+                <div className="w-28 rounded-radius-md bg-colors-background-bg-primary shadow-[0px_1px_2px_rgba(16,_24,_40,_0.05)] box-border overflow-hidden hidden flex-row items-center justify-center p-2.5 border-[1px] border-solid border-component-colors-components-buttons-secondary-button-secondary-border">
+                  <img
+                    className="w-6 relative h-6 overflow-hidden shrink-0"
+                    alt=""
+                    src="/social-icon.svg"
+                  />
+                </div>
+                <div className="w-[81px] rounded-radius-md bg-colors-background-bg-primary shadow-[0px_1px_2px_rgba(16,_24,_40,_0.05)] box-border overflow-hidden hidden flex-row items-center justify-center p-2.5 border-[1px] border-solid border-component-colors-components-buttons-secondary-button-secondary-border">
+                  <img
+                    className="w-6 relative h-6 overflow-hidden shrink-0"
+                    alt=""
+                    src="/social-icon.svg"
+                  />
+                </div>
+              </div> */}
             </div>
           </div>
           <div className="w-[720px] my-0 mx-[!important] absolute top-[0px] left-[0px] flex flex-row items-center justify-between p-8 box-border z-[1] text-xl text-colors-gray-dark-mode-900">
