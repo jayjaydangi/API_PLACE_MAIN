@@ -1,6 +1,8 @@
 import { useEffect, useState } from "react";
 import SuccessPopUp from "../Components/SuccessPopUp";
 import Link from "next/link";
+
+import { getProfileReportsAction } from "../Components/store/actions/homeAction"
 import CommonFooter from "../Components/Commons/CommonFooter";
 import CommonHeader from "../Components/Commons/CommonHeader";
 import AccountComponent from "../Components/Account/AccountComponent";
@@ -9,18 +11,32 @@ import Saved_API from "../Components/Account/Saved_API";
 import Listed_API from "../Components/Account/Listed_API";
 import Billing_payment_history from "../Components/Account/Billing_payment_history";
 import Api_Key from "../Components/Account/Api_Key";
+import { useRouter } from "next/router";
+import { connect } from "react-redux";
+import useWindow from "../Components/Commons/hasWindow";
 
-const Account = () => {
+const Account = ({getProfileReportsAction, profilefeatureData}) => {
+  const router = useRouter();
+  const hasWindow = useWindow();
+
+  useEffect(() => {
+    if (hasWindow) {
+      getProfileReportsAction();
+    }
+  }, [getProfileReportsAction]);
+
+
+
   const [showSucsses, setshowSucsses] = useState(false)
   const onSaveClick = () => {
     setshowSucsses(true)
   }
   const [activeMenuItem, setActiveMenuItem] = useState('Account'); // Initial active item
-  const [activeComponent, setActiveComponent] = useState(<AccountComponent />); // State to store the active component
+  const [activeComponent, setActiveComponent] = useState(<AccountComponent profilefeatureData={profilefeatureData} getProfileReportsAction={getProfileReportsAction} />); // State to store the active component
 
   useEffect(() => {
     const componentMap = {
-      'Account': <AccountComponent onSaveClick={onSaveClick}/>,
+      'Account': <AccountComponent profilefeatureData={profilefeatureData} getProfileReportsAction={getProfileReportsAction} onSaveClick={onSaveClick} />,
       'API Subscriptions': <ApiSubscriptionsComponent />,
       'Saved API': <Saved_API />,
       'My Listed API': <Listed_API />,
@@ -48,8 +64,8 @@ const Account = () => {
     <div className="w-full relative bg-colors-background-bg-primary overflow-hidden flex flex-col items-center justify-start text-left text-sm text-component-colors-components-buttons-secondary-button-secondary-fg font-text-lg-regular">
       <SuccessPopUp showSucsses={showSucsses} setshowSucsses={setshowSucsses} />
       <CommonHeader />
-      <div className={`w-[1440px] relative ${activeMenuItem === 'Account' ? 'min-h-[1400px]': 'min-h-[400px]'} z-[1] text-base`}>
-      {/* <div className="w-[1440px] relative min-h-[1400px] z-[1] text-base"> */}
+      <div className={`w-[1440px] relative ${activeMenuItem === 'Account' ? 'min-h-[1400px]' : 'min-h-[400px]'} z-[1] text-base`}>
+        {/* <div className="w-[1440px] relative min-h-[1400px] z-[1] text-base"> */}
         <div className="absolute top-[0px] left-[0px] bg-colors-background-bg-primary w-[1440px] overflow-hidden flex flex-col items-center justify-start py-spacing-6xl px-0 box-border">
           <div className="w-full flex flex-row items-start justify-start py-0 px-container-padding-desktop box-border gap-[0px_16px] max-w-[1280px]">
             <div className="w-full flex flex-row items-start justify-start py-0 px-container-padding-desktop box-border gap-[0px_16px] max-w-[1280px]">
@@ -95,5 +111,8 @@ const Account = () => {
     </div>
   );
 };
+const mapStateToProps = (state) => (console.log("state------", state), {
+  profilefeatureData: state.homeFeatureReducer.profilefeatureData,
 
-export default Account;
+});
+export default connect(mapStateToProps, { getProfileReportsAction })(Account);
