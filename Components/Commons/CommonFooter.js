@@ -1,9 +1,12 @@
 import Link from 'next/link'
-import React from 'react'
+import React from 'react';
+import 'bootstrap/dist/css/bootstrap.min.css';
+import { Col, Container, Row } from 'react-bootstrap';
 
 function CommonFooter() {
     return (
         <>
+
             <div className="w-[1440px] bg-colors-background-bg-primary overflow-hidden flex flex-col items-center justify-start pt-spacing-7xl px-0 pb-spacing-6xl box-border gap-[64px_0px] z-[0] text-11xl text-colors-text-text-primary-900">
                 <div className="w-full flex flex-col items-start justify-start py-0 px-container-padding-desktop box-border max-w-[1280px] text-xl text-colors-gray-dark-mode-900">
                     <div className="self-stretch flex flex-row flex-wrap items-start justify-start gap-[48px_64px]">
@@ -509,6 +512,8 @@ function CommonFooter() {
                     </div>
                 </div>
             </div>
+          
+
         </>
     )
 }

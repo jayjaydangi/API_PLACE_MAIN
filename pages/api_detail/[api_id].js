@@ -2,13 +2,10 @@ import { useRouter } from 'next/router'
 import APIDetailPage from '../../Components/ApiDetail/ApiDetailComponent'
 import { useEffect, useState } from 'react';
 import axios from 'axios';
-import { getFeatureReportsAction } from '../../Components/store/actions/homeAction';
-import { connect } from 'react-redux';
 // import { data } from 'autoprefixer';
 // import CommonHeader from '../../Components/Commons/CommonHeader'
 
-function Api_Detail_page(props) {
-    const { homefeatureData, getFeatureReportsAction } = props;
+export default function Page() {
     const router = useRouter()
     console.log('router', router.query.api_id)
     let api_Id = router?.query?.api_id;
@@ -45,25 +42,17 @@ function Api_Detail_page(props) {
             .catch(error => {
                 console.error('Error fetching projects:', error);
             });
-        getFeatureReportsAction();
-    }, [api_Id, getFeatureReportsAction]);
+    }, [api_Id]);
     console.log('apiDetailData', apiDetailData)
 
 
 
     return (
         <>
-            <APIDetailPage apiDetailData={apiDetailData} api_Id={api_Id} homefeatureData={homefeatureData} />
+            {/* <CommonHeader/> */}
+            {/* <div>Post: {JSON.stringify(router)}</div>
+            <p>Post: {router.query.api_id}</p> */}
+            <APIDetailPage apiDetailData={apiDetailData} api_Id={api_Id} />
         </>
     )
 }
-
-
-const mapStateToProps = (state) => (console.log("state------", state), {
-    homefeatureData: state.homeFeatureReducer.homefeatureData,
-
-});
-
-export default connect(mapStateToProps, {
-    getFeatureReportsAction
-})(Api_Detail_page);
